@@ -1,20 +1,30 @@
+> [!WARNING]
+> This repo is a work in progress. Stuff will change over time
+
 # Rust DMA Cheat
 A little DMA cheat for Rust. Some basic functions. A basic and easy to update SDK. 
 Forked From [IntelSDM's DMA Cheat](https://github.com/IntelSDM/RustDMACheat)
 
 ## Features
+> Features marked with a **\*** were original features that were not modified by me (Except for requiring unsafe check for the unsafe features)
 - Safe Features
     * Player Fuser ESP
 - Unsafe Features
-    * Admin ESP
-    * No Recoil / Recoil Modifier
-    * SpiderMan
-    * Force Admin
-    * Change Time
-    * Bright Nights
-    * FOV Changer
-    * Bright Caves
-    * DTB Fix
+    * **\*** Admin ESP
+    * **\*** No Recoil / Recoil Modifier (via memory)
+    * **\*** SpiderMan
+    * **\*** Force Admin
+    * **\*** Change Time
+    * **\*** Bright Nights
+    * **\*** FOV Changer
+    * **\*** Bright Caves
+    * **\*** DTB Fix
+
+## To be added
+- Safe features
+    * KM-Box B+ Aimbot 
+      * May not support KM-Box Net
+      * May take a while due to lack of *English* documentation
 
 ## FAQ
 - What does unsafe mean?
