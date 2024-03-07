@@ -40,25 +40,25 @@ void SetupCvars()
 {
 
 	std::shared_ptr<OcclusionCulling> occlusionculling = std::make_shared<OcclusionCulling>();
-	if (ConfigInstance.Misc.AdminESP)
+	if (ConfigInstance.Misc.AdminESP & ConfigInstance.Misc.UnsafeFeat)
 	{
 		occlusionculling->WriteDebugSettings(DebugFilter::Dynamic);
 		occlusionculling->WriteLayerMask(131072);
 	}
-	else
+	else if (ConfigInstance.Misc.UnsafeFeat)
 	{
 		occlusionculling->WriteDebugSettings(DebugFilter::Off);
 		occlusionculling->WriteLayerMask(0);
 	}
 	std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
-	if (ConfigInstance.Misc.RemoveWaterEffect)
+	if (ConfigInstance.Misc.RemoveWaterEffect & ConfigInstance.Misc.UnsafeFeat)
 		convaradmin->ClearVisionInWater(true);
-	if (ConfigInstance.Misc.ChangeTime)
+	if (ConfigInstance.Misc.ChangeTime & ConfigInstance.Misc.UnsafeFeat)
 		convaradmin->SetAdminTime(ConfigInstance.Misc.Time);
-	else
+	else if (ConfigInstance.Misc.UnsafeFeat)
 		convaradmin->SetAdminTime(-1);
 	std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
-	if (ConfigInstance.Misc.ChangeFov)
+	if (ConfigInstance.Misc.ChangeFov & ConfigInstance.Misc.UnsafeFeat)
 		graphics->WriteFOV(ConfigInstance.Misc.Fov);
 
 }
@@ -66,7 +66,7 @@ std::shared_ptr<CheatFunction> CachePlayers = std::make_shared<CheatFunction>(20
 		BaseLocalPlayer->CachePlayers();
 	});
 std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(38, []() {
-	if (ConfigInstance.Misc.SpiderMan)
+	if (ConfigInstance.Misc.SpiderMan & ConfigInstance.Misc.UnsafeFeat)
 	{
 		auto handle = TargetProcess.CreateScatterHandle();
 		BaseLocalPlayer->GetBaseMovement()->WriteGroundAngleNew(handle, 0.f);
@@ -78,7 +78,7 @@ std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(
 	});
 std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunction>(300, []() {
 
-	if (ConfigInstance.Misc.NoRecoil)
+	if (ConfigInstance.Misc.NoRecoil & ConfigInstance.Misc.UnsafeFeat)
 	{
 		BaseLocalPlayer->SetupBeltContainerList();
 	}
@@ -89,7 +89,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 	TargetProcess.ExecuteReadScatter(handle);
 	TargetProcess.CloseScatterHandle(handle);
 
-	if (ConfigInstance.Misc.NoRecoil)
+	if (ConfigInstance.Misc.NoRecoil & ConfigInstance.Misc.UnsafeFeat)
 	{
 		std::shared_ptr <Item> helditem = BaseLocalPlayer->GetActiveItem();
 		if (helditem != nullptr)
@@ -108,7 +108,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 
 	}
 	
-	if (ConfigInstance.Misc.AdminFlag)
+	if (ConfigInstance.Misc.AdminFlag & ConfigInstance.Misc.UnsafeFeat)
 	{
 		if ((BaseLocalPlayer->GetActiveFlag() & (int)4) != (int)4)
 		{
@@ -123,13 +123,13 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 	});
 std::shared_ptr<CheatFunction> SkyManager = std::make_shared<CheatFunction>(7, []() {
 	auto handle = TargetProcess.CreateScatterHandle();
-	if (ConfigInstance.Misc.BrightNights)
+	if (ConfigInstance.Misc.BrightNights & ConfigInstance.Misc.UnsafeFeat)
 	{
 		Sky->WriteNightLightIntensity(handle, 25.0f);
 		Sky->WriteNightAmbientMultiplier(handle, 4.0f);
 	}
 
-		if (ConfigInstance.Misc.BrightCaves)
+		if (ConfigInstance.Misc.BrightCaves & ConfigInstance.Misc.UnsafeFeat)
 		{
 			Sky->WriteDayAmbientMultiplier(handle, 2.0f);
 

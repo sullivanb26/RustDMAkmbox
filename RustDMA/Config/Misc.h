@@ -10,6 +10,7 @@ public:
         ConfigName = name;
     }
 
+    bool UnsafeFeat = false;
     bool AdminESP = true;
     bool ChangeTime = false;
     int Time = 12;
@@ -45,6 +46,7 @@ public:
     json ToJson()
     {
         json j;
+        j[ConfigName][LIT("UnsafeFeat")] = UnsafeFeat;
         j[ConfigName][LIT("AdminESP")] = AdminESP;
         j[ConfigName][LIT("ChangeTime")] = ChangeTime;
         j[ConfigName][LIT("Time")] = Time;
@@ -66,6 +68,8 @@ public:
     {
         if (!j.contains(ConfigName))
             return;
+        if (j[ConfigName].contains(LIT("UnsafeFeat")))
+            UnsafeFeat = j[ConfigName][LIT("UnsafeFeat")];
         if (j[ConfigName].contains(LIT("AdminESP")))
             AdminESP = j[ConfigName][LIT("AdminESP")];
         if (j[ConfigName].contains(LIT("ChangeTime")))
