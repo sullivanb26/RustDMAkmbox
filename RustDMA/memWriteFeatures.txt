@@ -1,28 +1,22 @@
-BaseMovement
-BasePlayer
-BaseProjectile
-ConsoleSystem
-ConvarAdmin
-ConvarGraphics
-X OcclusionCulling
-TODSky
-
+- Key
+// - Will find usage once access to Visual Studio is available(Currently on vscode - no search entire document)
+X - Found in Main.cpp and applied unsafe check
 
 X BaseMovement::WriteGroundAngle
 X BaseMovement::WriteGroundAngleNew
-BaseMovement::WriteMaxAngleClimbing
+// BaseMovement::WriteMaxAngleClimbing
 X BaseMovement::WriteMaxAngleWalking
-BaseMovement::WriteGroundTime
-BaseMovement::WriteJumpTime
-BaseMovement::WriteLandTime
+// BaseMovement::WriteGroundTime
+// BaseMovement::WriteJumpTime
+// BaseMovement::WriteLandTime
 
-BasePlayer::WritePlayerFlag
-BasePlayer::WriteActiveFlag
+// BasePlayer::WritePlayerFlag 
+X BasePlayer::WriteActiveFlag
 
-BaseProjectile::WriteRecoilYaw
-BaseProjectile::WriteRecoilPitch
+X BaseProjectile::WriteRecoilYaw
+X BaseProjectile::WriteRecoilPitch
 
-ConsoleSystem::DisableCommand
+X ConsoleSystem::DisableCommand *Initialized in AdminFlag
 
 X ConvarAdmin::ClearVisionInWater
 X ConvarAdmin::SetAdminTime
@@ -32,6 +26,6 @@ X ConvarGraphics::WriteFOV
 X OcclusionCulling::WriteLayerMask
 X OcclusionCulling::WriteDebugSettings
 
-TODSky::WriteNightLightIntensity
-TODSky::WriteNightAmbientMultiplier
-TODSky::WriteDayAmbientMultiplier
+X TODSky::WriteNightLightIntensity
+X TODSky::WriteNightAmbientMultiplier
+X TODSky::WriteDayAmbientMultiplier
