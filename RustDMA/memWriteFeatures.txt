@@ -1,0 +1,37 @@
+BaseMovement
+BasePlayer
+BaseProjectile
+ConsoleSystem
+ConvarAdmin
+ConvarGraphics
+X OcclusionCulling
+TODSky
+
+
+X BaseMovement::WriteGroundAngle
+X BaseMovement::WriteGroundAngleNew
+BaseMovement::WriteMaxAngleClimbing
+X BaseMovement::WriteMaxAngleWalking
+BaseMovement::WriteGroundTime
+BaseMovement::WriteJumpTime
+BaseMovement::WriteLandTime
+
+BasePlayer::WritePlayerFlag
+BasePlayer::WriteActiveFlag
+
+BaseProjectile::WriteRecoilYaw
+BaseProjectile::WriteRecoilPitch
+
+ConsoleSystem::DisableCommand
+
+X ConvarAdmin::ClearVisionInWater
+X ConvarAdmin::SetAdminTime
+
+X ConvarGraphics::WriteFOV
+
+X OcclusionCulling::WriteLayerMask
+X OcclusionCulling::WriteDebugSettings
+
+TODSky::WriteNightLightIntensity
+TODSky::WriteNightAmbientMultiplier
+TODSky::WriteDayAmbientMultiplier
