@@ -15,6 +15,7 @@
 #include "Init.h"
 #include "GUI.h"
 #include "Configinstance.h"
+#include "kmbox_interface.hpp"
 #include <dwmapi.h>
 std::shared_ptr<BasePlayer> BaseLocalPlayer = nullptr;
 std::shared_ptr<MainCamera> Camera = nullptr;
@@ -162,6 +163,20 @@ void Intialize()
 	CachePlayers->Execute();
 	
 }
+
+inline void km_move(int X, int Y) {
+	std::string command = "km.move(" + std::to_string(X) + "," + std::to_string(Y) + ")\r\n";
+	send_command(hSerial, command.c_str());
+}
+
+inline void km_click() {
+	std::string command = "km.left(" + std::to_string(1)  + ")\r\n"; // left mouse button down
+	Sleep(10); // to stop it from crashing idk
+	std::string command1 = "km.left(" + std::to_string(0) + ")\r\n"; // left mouse button up
+	send_command(hSerial, command.c_str());
+	send_command(hSerial, command1.c_str());
+}
+
 void main()
 {
 	if (!TargetProcess.Init("RustClient.exe"))
@@ -242,3 +257,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	CleanD2D();
 	return msg.wParam;
 }
+
