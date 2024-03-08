@@ -10,6 +10,9 @@ public:
         ConfigName = name;
     }
 
+    bool NoRecoilKMbox = false;
+    int RecoilXKMbox = 25;
+    int RecoilYKMbox = 25;
     bool UnsafeFeat = false;
     bool AdminESP = true;
     bool ChangeTime = false;
@@ -46,6 +49,9 @@ public:
     json ToJson()
     {
         json j;
+        j[ConfigName][LIT("NoRecoilKMbox")] = NoRecoilKMbox;
+        j[ConfigName][LIT("RecoilXKMbox")] = RecoilXKMbox;
+        j[ConfigName][LIT("RecoilYKMbox")] = RecoilYKMbox;
         j[ConfigName][LIT("UnsafeFeat")] = UnsafeFeat;
         j[ConfigName][LIT("AdminESP")] = AdminESP;
         j[ConfigName][LIT("ChangeTime")] = ChangeTime;
@@ -68,6 +74,12 @@ public:
     {
         if (!j.contains(ConfigName))
             return;
+        if (j[ConfigName].contains(LIT("NoRecoilKMbox")))
+            NoRecoil = j[ConfigName][LIT("NoRecoilKMbox")];
+        if (j[ConfigName].contains(LIT("RecoilXKMbox")))
+            RecoilX = j[ConfigName][LIT("RecoilXKMbox")];
+        if (j[ConfigName].contains(LIT("RecoilYKMbox")))
+            RecoilY = j[ConfigName][LIT("RecoilYKMbox")];
         if (j[ConfigName].contains(LIT("UnsafeFeat")))
             UnsafeFeat = j[ConfigName][LIT("UnsafeFeat")];
         if (j[ConfigName].contains(LIT("AdminESP")))
@@ -89,7 +101,7 @@ public:
         if (j[ConfigName].contains(LIT("BrightCaves")))
             BrightCaves = j[ConfigName][LIT("BrightCaves")];
         if (j[ConfigName].contains(LIT("NoRecoil")))
-                NoRecoil = j[ConfigName][LIT("NoRecoil")];
+            NoRecoil = j[ConfigName][LIT("NoRecoil")];
         if (j[ConfigName].contains(LIT("RecoilX")))
             RecoilX = j[ConfigName][LIT("RecoilX")];
         if (j[ConfigName].contains(LIT("RecoilY")))

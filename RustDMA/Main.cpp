@@ -108,6 +108,29 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 		}
 
 	}
+	if (ConfigInstance.Misc.NoRecoilKMbox)
+	{
+		std::shared_ptr <Item> helditem = BaseLocalPlayer->GetActiveItem();
+		if (helditem != nullptr)
+		{
+			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
+			if (weapon->IsValidWeapon())
+			{
+				// TO DO
+				// * Create weapon selection from held weaponid
+				//   - Will do via case switch possibly
+				// * Track weapon recoil using km.move()
+
+				// handle = TargetProcess.CreateScatterHandle();
+				// weapon->WriteRecoilPitch(handle,helditem->GetItemID(),ConfigInstance.Misc.RecoilX);
+				// weapon->WriteRecoilYaw(handle,helditem->GetItemID(), ConfigInstance.Misc.RecoilY);
+				// TargetProcess.ExecuteScatterWrite(handle);
+				// TargetProcess.CloseScatterHandle(handle);
+			}
+
+		}
+
+	}
 	
 	if (ConfigInstance.Misc.AdminFlag & ConfigInstance.Misc.UnsafeFeat)
 	{
