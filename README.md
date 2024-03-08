@@ -22,6 +22,8 @@ Forked From [IntelSDM's DMA Cheat](https://github.com/IntelSDM/RustDMACheat)
 
 ## To be added
 - Safe features
+    * KM-Box B+ Anti-recoil
+      * ***IN PROGRESS***
     * KM-Box B+ Aimbot 
       * May not support KM-Box Net
       * May take a while due to lack of *English* documentation
