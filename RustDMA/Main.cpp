@@ -142,6 +142,24 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
 			if (weapon->IsValidWeapon())
 			{
+				sens = 1.0;
+				ADSsens = 1.0; 
+				resolutionX = 1920;
+				resolutionY = 1080;
+				// Not sure this method works with KMBox B+ (will test at a later date)
+				// Need to find way to correlate weapon item to weapon in list
+				angleX = 0;
+				angleY = 0; 
+				if((GetKeyState(VK_RBUTTON) & 0x8000) != 0) {
+					xMoveABS = angleX / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
+					yMoveABS = angleY / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
+				} else {
+					xMoveABS = angleX / (-0.03 * sens * 3.0 * (fov / 100.0));
+					yMoveABS = angleY / (-0.03 * sens * 3.0 * (fov / 100.0));
+				}
+				xMoveREL = resolutionX/2 + xMoveABS;
+				yMoveREL = resolutionY/2 + yMoveABS;
+				km_move(xMoveREL, yMoveREL);
 
 				// TO DO
 				// * Create weapon selection from held weaponid
