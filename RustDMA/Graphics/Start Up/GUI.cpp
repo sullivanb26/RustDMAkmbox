@@ -53,7 +53,7 @@ void CreateGUI()
 	adminesp->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<OcclusionCulling> occlusionculling = std::make_shared<OcclusionCulling>();
-			if (ConfigInstance.Misc.AdminESP & ConfigInstance.Misc.UnsafeFeat)
+			if (ConfigInstance.Misc.AdminESP && ConfigInstance.Misc.UnsafeFeat)
 			{
 				occlusionculling->WriteDebugSettings(DebugFilter::Dynamic);
 				occlusionculling->WriteLayerMask(131072);
@@ -69,7 +69,7 @@ void CreateGUI()
 	watereffect->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
-			if (ConfigInstance.Misc.RemoveWaterEffect & ConfigInstance.Misc.UnsafeFeat)
+			if (ConfigInstance.Misc.RemoveWaterEffect && ConfigInstance.Misc.UnsafeFeat)
 				convaradmin->ClearVisionInWater(true);
 		});
 	form->Push(watereffect);
@@ -79,7 +79,7 @@ void CreateGUI()
 	changetime->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
-			if (ConfigInstance.Misc.ChangeTime & ConfigInstance.Misc.UnsafeFeat)
+			if (ConfigInstance.Misc.ChangeTime && ConfigInstance.Misc.UnsafeFeat)
 				convaradmin->SetAdminTime(ConfigInstance.Misc.Time);
 			else
 				convaradmin->SetAdminTime(-1);
@@ -89,7 +89,7 @@ void CreateGUI()
 	time->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
-			if (ConfigInstance.Misc.ChangeTime & ConfigInstance.Misc.UnsafeFeat)
+			if (ConfigInstance.Misc.ChangeTime && ConfigInstance.Misc.UnsafeFeat)
 				convaradmin->SetAdminTime(ConfigInstance.Misc.Time);
 			else
 				convaradmin->SetAdminTime(-1);
@@ -99,7 +99,7 @@ void CreateGUI()
 	changefov->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
-			if (ConfigInstance.Misc.ChangeFov & ConfigInstance.Misc.UnsafeFeat)
+			if (ConfigInstance.Misc.ChangeFov && ConfigInstance.Misc.UnsafeFeat)
 				graphics->WriteFOV(ConfigInstance.Misc.Fov);
 		});
 	form->Push(changefov);
@@ -107,7 +107,7 @@ void CreateGUI()
 	fovamount->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
-			if (ConfigInstance.Misc.ChangeFov & ConfigInstance.Misc.UnsafeFeat)
+			if (ConfigInstance.Misc.ChangeFov && ConfigInstance.Misc.UnsafeFeat)
 				graphics->WriteFOV(ConfigInstance.Misc.Fov);
 		});
 	form->Push(fovamount);

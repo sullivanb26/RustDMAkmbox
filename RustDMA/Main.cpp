@@ -41,7 +41,7 @@ void SetupCvars()
 {
 
 	std::shared_ptr<OcclusionCulling> occlusionculling = std::make_shared<OcclusionCulling>();
-	if (ConfigInstance.Misc.AdminESP & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.AdminESP && ConfigInstance.Misc.UnsafeFeat)
 	{
 		occlusionculling->WriteDebugSettings(DebugFilter::Dynamic);
 		occlusionculling->WriteLayerMask(131072);
@@ -52,14 +52,14 @@ void SetupCvars()
 		occlusionculling->WriteLayerMask(0);
 	}
 	std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
-	if (ConfigInstance.Misc.RemoveWaterEffect & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.RemoveWaterEffect && ConfigInstance.Misc.UnsafeFeat)
 		convaradmin->ClearVisionInWater(true);
-	if (ConfigInstance.Misc.ChangeTime & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.ChangeTime && ConfigInstance.Misc.UnsafeFeat)
 		convaradmin->SetAdminTime(ConfigInstance.Misc.Time);
 	else if (ConfigInstance.Misc.UnsafeFeat)
 		convaradmin->SetAdminTime(-1);
 	std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
-	if (ConfigInstance.Misc.ChangeFov & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.ChangeFov && ConfigInstance.Misc.UnsafeFeat)
 		graphics->WriteFOV(ConfigInstance.Misc.Fov);
 
 }
@@ -67,7 +67,7 @@ std::shared_ptr<CheatFunction> CachePlayers = std::make_shared<CheatFunction>(20
 		BaseLocalPlayer->CachePlayers();
 	});
 std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(38, []() {
-	if (ConfigInstance.Misc.SpiderMan & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.SpiderMan && ConfigInstance.Misc.UnsafeFeat)
 	{
 		auto handle = TargetProcess.CreateScatterHandle();
 		BaseLocalPlayer->GetBaseMovement()->WriteGroundAngleNew(handle, 0.f);
@@ -78,7 +78,7 @@ std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(
 	}
 	});
 
-const std::array<double, WEAPON_MAX> weapon_delays = {
+const std::array<double, 12> weapon_delays = {
 		/* None */		0.0,
 		/* AK-47 */		133.33,
 		/* LR-300 */	120.0,
@@ -105,7 +105,7 @@ const std::vector<std::vector<std::array<double, 2>>>recoil_tables = {
 
 std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunction>(300, []() {
 
-	if (ConfigInstance.Misc.NoRecoil & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.NoRecoil && ConfigInstance.Misc.UnsafeFeat)
 	{
 		BaseLocalPlayer->SetupBeltContainerList();
 	}
@@ -116,7 +116,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 	TargetProcess.ExecuteReadScatter(handle);
 	TargetProcess.CloseScatterHandle(handle);
 
-	if (ConfigInstance.Misc.NoRecoil & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.NoRecoil && ConfigInstance.Misc.UnsafeFeat)
 	{
 		std::shared_ptr <Item> helditem = BaseLocalPlayer->GetActiveItem();
 		if (helditem != nullptr)
@@ -142,6 +142,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
 			if (weapon->IsValidWeapon())
 			{
+
 				// TO DO
 				// * Create weapon selection from held weaponid
 				//   - Will do via case switch possibly
@@ -158,7 +159,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 
 	}
 	
-	if (ConfigInstance.Misc.AdminFlag & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.AdminFlag && ConfigInstance.Misc.UnsafeFeat)
 	{
 		if ((BaseLocalPlayer->GetActiveFlag() & (int)4) != (int)4)
 		{
@@ -173,13 +174,13 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 	});
 std::shared_ptr<CheatFunction> SkyManager = std::make_shared<CheatFunction>(7, []() {
 	auto handle = TargetProcess.CreateScatterHandle();
-	if (ConfigInstance.Misc.BrightNights & ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.BrightNights && ConfigInstance.Misc.UnsafeFeat)
 	{
 		Sky->WriteNightLightIntensity(handle, 25.0f);
 		Sky->WriteNightAmbientMultiplier(handle, 4.0f);
 	}
 
-		if (ConfigInstance.Misc.BrightCaves & ConfigInstance.Misc.UnsafeFeat)
+		if (ConfigInstance.Misc.BrightCaves && ConfigInstance.Misc.UnsafeFeat)
 		{
 			Sky->WriteDayAmbientMultiplier(handle, 2.0f);
 
