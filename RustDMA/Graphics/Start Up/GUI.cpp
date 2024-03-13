@@ -33,6 +33,12 @@ void CreateGUI()
 	MenuEntity = std::make_shared<Container>();
 	auto form = std::make_shared<Form>(100, 100.0f, 420, 350, 2, 30, LIT(L"Rust DMA"), false);
 	{
+	// Tab system to be done
+	// auto mainTab = std::make_shared<TabListBox>(L"Main");
+	// form->Push(mainTab);
+	// auto configTab = std::make_shared<TabListBox>(L"Config");
+	// form->Push(configTab);
+		
 	auto safeLabel = std::make_shared<Label>(10, 10, LIT(L"Safe Features"));
 	form->Push(safeLabel);
 	auto enableplayeresp = std::make_shared<Toggle>(10, 30, LIT(L"Enable Player ESP"), &ConfigInstance.PlayerESP.Enable);
@@ -43,7 +49,7 @@ void CreateGUI()
 	form->Push(playername);
 	auto playerdistance = std::make_shared<Toggle>(10, 70, LIT(L"Player Distance"), &ConfigInstance.PlayerESP.Distance);
 	form->Push(playerdistance);
-	auto playermaxdistance = std::make_shared<Slider<int>>(10, 90,150, LIT(L"Max Distance"),LIT(L"m"), 0, 1000, &ConfigInstance.PlayerESP.MaxDistance);
+	auto playermaxdistance = std::make_shared<Slider<int>>(10, 90, 150, LIT(L"Max Distance"),LIT(L"m"), 0, 1000, &ConfigInstance.PlayerESP.MaxDistance);
 	form->Push(playermaxdistance);
 	auto recoilKM = std::make_shared<Toggle>(10, 110, LIT(L"No Recoil KMBox"), &ConfigInstance.Misc.NoRecoilKMbox);
 	form->Push(norecoil);
@@ -56,6 +62,23 @@ void CreateGUI()
 	auto unsafeLabel = std::make_shared<Label>(180, 10, LIT(L"Unsafe Features"));
 	form->Push(unsafeLabel);
 	auto unsafeFeatures = std::make_shared<Toggle>(180, 35, LIT(L"Enable Unsafe Features?"), &ConfigInstance.Misc.UnsafeFeat);
+	unsafeFeatures->SetValueChangedEvent([]()
+	{
+		// Hide unsafe features 
+		adminesp::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		watereffect::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		adminflag::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		changetime::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		time::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		changefov::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		fovamount::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		brightnights::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		brightcaves::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		norecoil::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		recoilx::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		recoily::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+		spiderman::SetVisible(ConfigInstance.Misc.UnsafeFeat);
+	});
 	form->Push(unsafeFeatures);
 	auto adminesp = std::make_shared<Toggle>(180, 60, LIT(L"Admin Box ESP"), &ConfigInstance.Misc.AdminESP);
 	adminesp->SetValueChangedEvent([]()
