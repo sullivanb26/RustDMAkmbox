@@ -17,6 +17,7 @@
 #include "Configinstance.h"
 #include "kmbox_interface.hpp"
 #include <dwmapi.h>
+#include <windows.h>
 #include <vector>
 #include <array>
 std::shared_ptr<BasePlayer> BaseLocalPlayer = nullptr;
@@ -146,11 +147,11 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 			{
 				double sens = 1.0;
     		double ADSsens = 1.0; 
-    		double resolutionX = 1920;
-    		double resolutionY = 1080;
+    		double resolutionX = GetSystemMetrics(SM_CXSCREEN);
+    		double resolutionY = GetSystemMetrics(SM_CYSCREEN);
 				double recoilXPer = ConfigInstance.Misc.RecoilXKMbox;
 				double recoilYPer = ConfigInstance.Misc.RecoilYKMbox;
-    		double fov = 90;
+    		double fov = ReadFOV(); // May backup to input
 				double weaponNum = 0.0;
     		for (int i = 0; i < sizeof(recoil_tables[weaponNum]); i++) {
     		  double angleX = recoil_tables[weaponNum][i][0];

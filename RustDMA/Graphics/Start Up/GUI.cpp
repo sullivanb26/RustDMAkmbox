@@ -31,7 +31,7 @@ D2D1::ColorF ColourPick = Colour(0, 150, 255, 255);
 void CreateGUI()
 {
 	MenuEntity = std::make_shared<Container>();
-	auto form = std::make_shared<Form>(100, 100.0f, 420, 350, 2, 30, LIT(L"Cool Hack"), false);
+	auto form = std::make_shared<Form>(100, 100.0f, 420, 350, 2, 30, LIT(L"Rust DMA"), false);
 	{
 	auto safeLabel = std::make_shared<Label>(10, 10, LIT(L"Safe Features"));
 	form->Push(safeLabel);

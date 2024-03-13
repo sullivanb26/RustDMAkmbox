@@ -15,4 +15,5 @@ class ConvarGraphics //Convar.Graphics
 public:
 	ConvarGraphics();
 	void WriteFOV(float value);
+	double ReadFOV();
 };
