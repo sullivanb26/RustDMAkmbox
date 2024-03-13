@@ -143,7 +143,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 		if (helditem != nullptr)
 		{
 			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
-			if (weapon->IsValidWeapon() && ((GetKeyState(VK_LBUTTON) && 0x8000) != 0))
+			if (weapon->IsValidWeapon())
 			{
 				double sens = 1.0;
     		double ADSsens = 1.0; 
@@ -158,7 +158,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
     		  double angleY = recoil_tables[weaponNum][i][1]; 
 					double xMoveABS;
     		  double yMoveABS;
-					if((GetKeyState(VK_RBUTTON) && 0x8000) != 0) {
+					if(((GetKeyState(VK_RBUTTON) && 0x8000) != 0) && ((GetKeyState(VK_LBUTTON) && 0x8000) != 0)) {
 						xMoveABS = angleX / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
 						yMoveABS = angleY / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
 					} else {
