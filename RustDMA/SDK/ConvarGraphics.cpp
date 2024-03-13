@@ -21,6 +21,5 @@ double ConvarGraphics::ReadFOV()
 	uint64_t fovOfuint = TargetProcess.Read<uint64_t>(StaticField + FOV);
 	double fovOf = (double) fovOfuint; // May need to strip hex tag
 	printf("[ConvarGraphics] Fov: 0x%llX\n", fovOf);
-	if (fovOf )
 	return fovOf;
 }
