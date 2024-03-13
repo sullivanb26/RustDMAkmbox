@@ -17,6 +17,8 @@
 #include "Configinstance.h"
 #include "kmbox_interface.hpp"
 #include <dwmapi.h>
+#include <vector>
+#include <array>
 std::shared_ptr<BasePlayer> BaseLocalPlayer = nullptr;
 std::shared_ptr<MainCamera> Camera = nullptr;
 std::shared_ptr<ConsoleSystem> Console = nullptr;
@@ -142,35 +144,34 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
 			if (weapon->IsValidWeapon())
 			{
-				sens = 1.0;
-				ADSsens = 1.0; 
-				resolutionX = 1920;
-				resolutionY = 1080;
-				// Not sure this method works with KMBox B+ (will test at a later date)
-				// Need to find way to correlate weapon item to weapon in list
-				angleX = 0;
-				angleY = 0; 
-				if((GetKeyState(VK_RBUTTON) & 0x8000) != 0) {
-					xMoveABS = angleX / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
-					yMoveABS = angleY / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
-				} else {
-					xMoveABS = angleX / (-0.03 * sens * 3.0 * (fov / 100.0));
-					yMoveABS = angleY / (-0.03 * sens * 3.0 * (fov / 100.0));
-				}
-				xMoveREL = resolutionX/2 + xMoveABS;
-				yMoveREL = resolutionY/2 + yMoveABS;
-				km_move(xMoveREL, yMoveREL);
+				double sens = 1.0;
+    		double ADSsens = 1.0; 
+    		double resolutionX = 1920;
+    		double resolutionY = 1080;
+				double recoilXPer = ConfigInstance.Misc.RecoilXKMbox;
+				double recoilYPer = ConfigInstance.Misc.RecoilYKMbox;
+    		double fov = 90;
+				double weaponNum = 0.0;
+    		for (int i = 0; i < sizeof(recoil_tables[weaponNum]); i++) {
+    		  double angleX = recoil_tables[weaponNum][i][0];
+    		  double angleY = recoil_tables[weaponNum][i][1]; 
+					double xMoveABS;
+    		  double yMoveABS;
+					if((GetKeyState(VK_LBUTTON) & 0x8000) != 0) {
+						xMoveABS = angleX / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
+						yMoveABS = angleY / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
+					} else {
+						xMoveABS = angleX / (-0.03 * sens * 3.0 * (fov / 100.0));
+						yMoveABS = angleY / (-0.03 * sens * 3.0 * (fov / 100.0));
+					}
+        	double xMoveREL = resolutionX/2 + (xMoveABS * (recoilXPer/100));
+        	double yMoveREL = resolutionY/2 + (yMoveABS * (recoilYPer/100));
+					km_move(xMoveREL, yMoveREL);
+   			}
 
 				// TO DO
-				// * Create weapon selection from held weaponid
+				// * Create weapon selection from held weapon
 				//   - Will do via case switch possibly
-				// * Track weapon recoil using km.move()
-
-				// handle = TargetProcess.CreateScatterHandle();
-				// weapon->WriteRecoilPitch(handle,helditem->GetItemID(),ConfigInstance.Misc.RecoilX);
-				// weapon->WriteRecoilYaw(handle,helditem->GetItemID(), ConfigInstance.Misc.RecoilY);
-				// TargetProcess.ExecuteScatterWrite(handle);
-				// TargetProcess.CloseScatterHandle(handle);
 			}
 
 		}
