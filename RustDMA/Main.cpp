@@ -24,12 +24,24 @@ std::shared_ptr<BasePlayer> BaseLocalPlayer = nullptr;
 std::shared_ptr<MainCamera> Camera = nullptr;
 std::shared_ptr<ConsoleSystem> Console = nullptr;
 std::shared_ptr<TODSky> Sky = nullptr;
+inline void km_move(int X, int Y) {
+	std::string command = "km.move(" + std::to_string(X) + "," + std::to_string(Y) + ")\r\n";
+	send_command(hSerial, command.c_str());
+}
+
+inline void km_click() {
+	std::string command = "km.left(" + std::to_string(1) + ")\r\n"; // left mouse button down
+	Sleep(10); // to stop it from crashing idk
+	std::string command1 = "km.left(" + std::to_string(0) + ")\r\n"; // left mouse button up
+	send_command(hSerial, command.c_str());
+	send_command(hSerial, command1.c_str());
+}
 // each time we reinitialize localplayer
 void PerServerVariables()
 {
 	std::shared_ptr <LocalPlayer> localplayer = std::make_shared <LocalPlayer>();
 	auto handle = TargetProcess.CreateScatterHandle();
-	BaseLocalPlayer = std::make_shared <BasePlayer>(localplayer->GetBasePlayer(),handle);
+	BaseLocalPlayer = std::make_shared <BasePlayer>(localplayer->GetBasePlayer(), handle);
 	TargetProcess.ExecuteReadScatter(handle);
 	TargetProcess.CloseScatterHandle(handle);
 	BaseLocalPlayer->InitializePlayerList();
@@ -67,7 +79,7 @@ void SetupCvars()
 
 }
 std::shared_ptr<CheatFunction> CachePlayers = std::make_shared<CheatFunction>(2000, []() {
-		BaseLocalPlayer->CachePlayers();
+	BaseLocalPlayer->CachePlayers();
 	});
 std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(38, []() {
 	if (ConfigInstance.Misc.SpiderMan && ConfigInstance.Misc.UnsafeFeat)
@@ -82,17 +94,17 @@ std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(
 	});
 
 const std::array<double, 12> weapon_delays = {
-		/* None */		0.0,
-		/* AK-47 */		133.33,
-		/* LR-300 */	120.0,
-		/* M249 */		100.0,
-		/* HMLMG */		100.0,
-		/* MP5 */		89.0,
-		/* Thompson */	113.0,
-		/* Custom */	90.0,
-		/* Python */	125.0,
-		/* Semi */	175.0
-	};
+	/* None */		0.0,
+	/* AK-47 */		133.33,
+	/* LR-300 */	120.0,
+	/* M249 */		100.0,
+	/* HMLMG */		100.0,
+	/* MP5 */		89.0,
+	/* Thompson */	113.0,
+	/* Custom */	90.0,
+	/* Python */	125.0,
+	/* Semi */	175.0
+};
 const std::vector<std::vector<std::array<double, 2>>>recoil_tables = {
 	/* None */		{ { 0.0 } },
 	/* AK-47 */		{ {0.000000,-2.257792},{0.323242,-2.300758},{0.649593,-2.299759},{0.848786,-2.259034},{1.075408,-2.323947},{1.268491,-2.215956},{1.330963,-2.236556},{1.336833,-2.218203},{1.505516,-2.143454},{1.504423,-2.233091},{1.442116,-2.270194},{1.478543,-2.204318},{1.392874,-2.165817},{1.480824,-2.177887},{1.597069,-2.270915},{1.449996,-2.145893},{1.369179,-2.270450},{1.582363,-2.298334},{1.516872,-2.235066},{1.498249,-2.238401},{1.465769,-2.331642},{1.564812,-2.242621},{1.517519,-2.303052},{1.422433,-2.211946},{1.553195,-2.248043},{1.510463,-2.285327},{1.553878,-2.240047},{1.520380,-2.221839},{1.553878,-2.240047},{1.553195,-2.248043} },
@@ -128,8 +140,8 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 			if (weapon->IsValidWeapon())
 			{
 				handle = TargetProcess.CreateScatterHandle();
-				weapon->WriteRecoilPitch(handle,helditem->GetItemID(),ConfigInstance.Misc.RecoilX);
-				weapon->WriteRecoilYaw(handle,helditem->GetItemID(), ConfigInstance.Misc.RecoilY);
+				weapon->WriteRecoilPitch(handle, helditem->GetItemID(), ConfigInstance.Misc.RecoilX);
+				weapon->WriteRecoilYaw(handle, helditem->GetItemID(), ConfigInstance.Misc.RecoilY);
 				TargetProcess.ExecuteScatterWrite(handle);
 				TargetProcess.CloseScatterHandle(handle);
 			}
@@ -146,29 +158,31 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 			if (weapon->IsValidWeapon())
 			{
 				double sens = 1.0;
-    		double ADSsens = 1.0; 
-    		double resolutionX = GetSystemMetrics(SM_CXSCREEN);
-    		double resolutionY = GetSystemMetrics(SM_CYSCREEN);
+				double ADSsens = 1.0;
+				double resolutionX = GetSystemMetrics(SM_CXSCREEN);
+				double resolutionY = GetSystemMetrics(SM_CYSCREEN);
 				double recoilXPer = ConfigInstance.Misc.RecoilXKMbox;
 				double recoilYPer = ConfigInstance.Misc.RecoilYKMbox;
-    		double fov = ReadFOV(); // May backup to input
+				std::shared_ptr <ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
+				double fov = graphics->ReadFOV(); // May backup to input
 				double weaponNum = 0.0;
-    		for (int i = 0; i < sizeof(recoil_tables[weaponNum]); i++) {
-    		  double angleX = recoil_tables[weaponNum][i][0];
-    		  double angleY = recoil_tables[weaponNum][i][1]; 
+				for (int i = 0; i < sizeof(recoil_tables[weaponNum]); i++) {
+					double angleX = recoil_tables[weaponNum][i][0];
+					double angleY = recoil_tables[weaponNum][i][1];
 					double xMoveABS;
-    		  double yMoveABS;
-					if(((GetKeyState(VK_RBUTTON) && 0x8000) != 0) && ((GetKeyState(VK_LBUTTON) && 0x8000) != 0)) {
+					double yMoveABS;
+					if (((GetKeyState(VK_RBUTTON) && 0x8000) != 0) && ((GetKeyState(VK_LBUTTON) && 0x8000) != 0)) {
 						xMoveABS = angleX / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
 						yMoveABS = angleY / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
-					} else {
+					}
+					else {
 						xMoveABS = angleX / (-0.03 * sens * 3.0 * (fov / 100.0));
 						yMoveABS = angleY / (-0.03 * sens * 3.0 * (fov / 100.0));
 					}
-        	double xMoveREL = resolutionX/2 + (xMoveABS * (recoilXPer/100));
-        	double yMoveREL = resolutionY/2 + (yMoveABS * (recoilYPer/100));
+					double xMoveREL = resolutionX / 2 + (xMoveABS * (recoilXPer / 100));
+					double yMoveREL = resolutionY / 2 + (yMoveABS * (recoilYPer / 100));
 					km_move(xMoveREL, yMoveREL);
-   			}
+				}
 
 				// TO DO
 				// * Create weapon selection from held weapon
@@ -178,7 +192,7 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 		}
 
 	}
-	
+
 	if (ConfigInstance.Misc.AdminFlag && ConfigInstance.Misc.UnsafeFeat)
 	{
 		if ((BaseLocalPlayer->GetActiveFlag() & (int)4) != (int)4)
@@ -200,14 +214,14 @@ std::shared_ptr<CheatFunction> SkyManager = std::make_shared<CheatFunction>(7, [
 		Sky->WriteNightAmbientMultiplier(handle, 4.0f);
 	}
 
-		if (ConfigInstance.Misc.BrightCaves && ConfigInstance.Misc.UnsafeFeat)
-		{
-			Sky->WriteDayAmbientMultiplier(handle, 2.0f);
+	if (ConfigInstance.Misc.BrightCaves && ConfigInstance.Misc.UnsafeFeat)
+	{
+		Sky->WriteDayAmbientMultiplier(handle, 2.0f);
 
-		}
-		TargetProcess.ExecuteScatterWrite(handle);
-		TargetProcess.CloseScatterHandle(handle);
-	
+	}
+	TargetProcess.ExecuteScatterWrite(handle);
+	TargetProcess.CloseScatterHandle(handle);
+
 
 	});
 
@@ -231,20 +245,7 @@ void Intialize()
 	}
 	SetupCvars();
 	CachePlayers->Execute();
-	
-}
 
-inline void km_move(int X, int Y) {
-	std::string command = "km.move(" + std::to_string(X) + "," + std::to_string(Y) + ")\r\n";
-	send_command(hSerial, command.c_str());
-}
-
-inline void km_click() {
-	std::string command = "km.left(" + std::to_string(1)  + ")\r\n"; // left mouse button down
-	Sleep(10); // to stop it from crashing idk
-	std::string command1 = "km.left(" + std::to_string(0) + ")\r\n"; // left mouse button up
-	send_command(hSerial, command.c_str());
-	send_command(hSerial, command1.c_str());
 }
 
 void main()
