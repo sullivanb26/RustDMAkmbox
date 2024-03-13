@@ -45,11 +45,19 @@ void CreateGUI()
 	form->Push(playerdistance);
 	auto playermaxdistance = std::make_shared<Slider<int>>(10, 90,150, LIT(L"Max Distance"),LIT(L"m"), 0, 1000, &ConfigInstance.PlayerESP.MaxDistance);
 	form->Push(playermaxdistance);
-	auto unsafeLabel = std::make_shared<Label>(10, 110, LIT(L"Unsafe Features"));
+	auto recoilKM = std::make_shared<Toggle>(10, 110, LIT(L"No Recoil KMBox"), &ConfigInstance.Misc.NoRecoilKMbox);
+	form->Push(norecoil);
+	auto recoilxKM = std::make_shared<Slider<int>>(10, 130, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilXKMbox);
+	form->Push(recoilx);
+	auto recoilyKM = std::make_shared<Slider<int>>(10, 150, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilYKMbox);
+	form->Push(recoily);
+
+
+	auto unsafeLabel = std::make_shared<Label>(180, 10, LIT(L"Unsafe Features"));
 	form->Push(unsafeLabel);
-	auto unsafeFeatures = std::make_shared<Toggle>(10, 135, LIT(L"Enable Unsafe Features?"), &ConfigInstance.Misc.UnsafeFeat);
+	auto unsafeFeatures = std::make_shared<Toggle>(180, 35, LIT(L"Enable Unsafe Features?"), &ConfigInstance.Misc.UnsafeFeat);
 	form->Push(unsafeFeatures);
-	auto adminesp = std::make_shared<Toggle>(10, 160, LIT(L"Admin Box ESP"), &ConfigInstance.Misc.AdminESP);
+	auto adminesp = std::make_shared<Toggle>(180, 60, LIT(L"Admin Box ESP"), &ConfigInstance.Misc.AdminESP);
 	adminesp->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<OcclusionCulling> occlusionculling = std::make_shared<OcclusionCulling>();
@@ -65,7 +73,7 @@ void CreateGUI()
 			}
 		});
 	form->Push(adminesp);
-	auto watereffect = std::make_shared<Toggle>(10,180, LIT(L"Remove Water Effect"), &ConfigInstance.Misc.RemoveWaterEffect);
+	auto watereffect = std::make_shared<Toggle>(180, 80, LIT(L"Remove Water Effect"), &ConfigInstance.Misc.RemoveWaterEffect);
 	watereffect->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
@@ -73,9 +81,9 @@ void CreateGUI()
 				convaradmin->ClearVisionInWater(true);
 		});
 	form->Push(watereffect);
-	auto adminflag = std::make_shared<Toggle>(10, 200, LIT(L"Admin Flag"), &ConfigInstance.Misc.AdminFlag);
+	auto adminflag = std::make_shared<Toggle>(180, 100, LIT(L"Admin Flag"), &ConfigInstance.Misc.AdminFlag);
 	form->Push(adminflag);
-	auto changetime = std::make_shared<Toggle>(10, 220, LIT(L"Change Time"), &ConfigInstance.Misc.ChangeTime);
+	auto changetime = std::make_shared<Toggle>(180, 120, LIT(L"Change Time"), &ConfigInstance.Misc.ChangeTime);
 	changetime->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
@@ -85,7 +93,7 @@ void CreateGUI()
 				convaradmin->SetAdminTime(-1);
 		});
 	form->Push(changetime);
-	auto time = std::make_shared<Slider<int>>(10, 240, 150, LIT(L"Time"), LIT(L"°"), 0, 24, &ConfigInstance.Misc.Time);
+	auto time = std::make_shared<Slider<int>>(180, 140, 150, LIT(L"Time"), LIT(L"°"), 0, 24, &ConfigInstance.Misc.Time);
 	time->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
@@ -95,7 +103,7 @@ void CreateGUI()
 				convaradmin->SetAdminTime(-1);
 		});
 	form->Push(time);
-	auto changefov = std::make_shared<Toggle>(10, 265, LIT(L"Change FOV"), &ConfigInstance.Misc.ChangeFov);
+	auto changefov = std::make_shared<Toggle>(180, 165, LIT(L"Change FOV"), &ConfigInstance.Misc.ChangeFov);
 	changefov->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
@@ -103,7 +111,7 @@ void CreateGUI()
 				graphics->WriteFOV(ConfigInstance.Misc.Fov);
 		});
 	form->Push(changefov);
-	auto fovamount = std::make_shared<Slider<int>>(10, 285, 150, LIT(L"FOV Amount"), LIT(L"°"), 0, 150, &ConfigInstance.Misc.Fov);
+	auto fovamount = std::make_shared<Slider<int>>(180, 185, 150, LIT(L"FOV Amount"), LIT(L"°"), 0, 150, &ConfigInstance.Misc.Fov);
 	fovamount->SetValueChangedEvent([]()
 		{
 			std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
@@ -111,17 +119,17 @@ void CreateGUI()
 				graphics->WriteFOV(ConfigInstance.Misc.Fov);
 		});
 	form->Push(fovamount);
-	auto brightnights = std::make_shared<Toggle>(10, 310, LIT(L"Bright Nights"), &ConfigInstance.Misc.BrightNights);
+	auto brightnights = std::make_shared<Toggle>(180, 210, LIT(L"Bright Nights"), &ConfigInstance.Misc.BrightNights);
 	form->Push(brightnights);
-	auto brightcaves = std::make_shared<Toggle>(10, 330, LIT(L"Bright Caves"), &ConfigInstance.Misc.BrightCaves);
+	auto brightcaves = std::make_shared<Toggle>(180, 230, LIT(L"Bright Caves"), &ConfigInstance.Misc.BrightCaves);
 	form->Push(brightcaves);
-	auto norecoil = std::make_shared<Toggle>(180, 10, LIT(L"No Recoil"), &ConfigInstance.Misc.NoRecoil);
+	auto norecoil = std::make_shared<Toggle>(180, 250, LIT(L"No Recoil"), &ConfigInstance.Misc.NoRecoil);
 	form->Push(norecoil);
-	auto recoilx = std::make_shared<Slider<int>>(180, 30, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilX);
+	auto recoilx = std::make_shared<Slider<int>>(180, 270, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilX);
 	form->Push(recoilx);
-	auto recoily = std::make_shared<Slider<int>>(180, 55, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilY);
+	auto recoily = std::make_shared<Slider<int>>(180, 295, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilY);
 	form->Push(recoily);
-	auto spiderman = std::make_shared<Toggle>(180,85,LIT(L"Spiderman"),&ConfigInstance.Misc.SpiderMan);
+	auto spiderman = std::make_shared<Toggle>(180, 315,LIT(L"Spiderman"),&ConfigInstance.Misc.SpiderMan);
 	form->Push(spiderman);
 	}
 
