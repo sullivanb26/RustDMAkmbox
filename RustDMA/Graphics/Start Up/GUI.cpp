@@ -19,9 +19,11 @@
 #include "OcclusionCulling.h"
 #include "ConvarAdmin.h"
 #include "ConvarGraphics.h"
+#include "ConfigInstance.h"
 int SelectedTab = 1;
 int TabCount = 0;
 int KeyBindClipBoard = 0;
+int ConfigNumber = 0;
 EntityVector MenuEntity;
 bool MenuOpen = true;
 D2D1::ColorF ColourPickerClipBoard = Colour(255, 255, 255);
@@ -138,6 +140,17 @@ void CreateGUI()
 		}
 		auto configTab = std::make_shared<Tab>(L"Config", 65, 55, &SelectedTab, 50, 20);
 		{
+			std::list<std::wstring> configValues = {L"1", L"2", L"3", L"4"};
+			auto configDropdown = std::make_shared<Dropdown>(10, 30, L"Config", &ConfigNumber, configValues)
+			configTab->Push(configDropdown);
+			auto loadConfig = std::make_shared<Button>(10, 50, L"Load", []{
+				ConfigInstances.FromJson(&ConfigNumber);
+			});
+			configTab->Push(loadConfig);
+			auto saveConfig = std::make_shared<Button>(10, 70, L"Save", []{
+				ConfigInstances.ToJson(&ConfigNumber);
+			});
+			configTab->Push(saveConfig);
 		}
 		tabcontroller->Push(mainTab);
 		tabcontroller->Push(configTab);
