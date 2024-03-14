@@ -43,4 +43,5 @@ Forked From [IntelSDM's DMA Cheat](https://github.com/IntelSDM/RustDMACheat)
 * [IL2CPP Dumper](https://github.com/Perfare/Il2CppDumper)
 * [DMALibrary](https://github.com/Metick/DMALibrary/tree/Master)
 * [IntelSDM's GUI Framework](https://github.com/IntelSDM/GUI-Framework) 
+* [sys-1337's KMBox B+ Pro Communication](https://github.com/sys-1337/kmbox-communication/)
   
