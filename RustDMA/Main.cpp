@@ -253,15 +253,15 @@ void main()
 {
 	string port = find_port("USB-SERIAL CH340"); // name of the kmbox port without ( COM )
 	if (port.empty()) {
-		printf("\n	[!] No port found..";
+		printf("\n	[!] No port found..");
 		return;
 	}
 	if (!open_port(hSerial, port.c_str(), CBR_115200))  { // CBR_1115200 is the baud rate
-		printf("\n	[!] Opening the port failed!";
+		printf("\n	[!] Opening the port failed!");
 		return;
 	}
-	printf("\n	[+] Connected to the kmbox with " + port;
-	printf("\n	[+] Proceeding to Rust client"
+	printf("\n	[+] Connected to the kmbox with " + port);
+	printf("\n	[+] Proceeding to Rust client");
 	if (!TargetProcess.Init("RustClient.exe"))
 	{
 		printf("\n	[!] Failed to initialize process");
