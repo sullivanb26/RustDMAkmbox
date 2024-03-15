@@ -14,6 +14,7 @@ public:
     int RecoilXKMbox = 25;
     int RecoilYKMbox = 25;
     bool aimKMbox = false;
+    int aimKeyKM = 0;
     int smoothKM = 25;
     int fovKM = 25;
     bool fovCircle = true;
@@ -58,6 +59,7 @@ public:
         j[ConfigName][LIT("RecoilXKMbox")] = RecoilXKMbox;
         j[ConfigName][LIT("RecoilYKMbox")] = RecoilYKMbox;
         j[ConfigName][LIT("aimKMbox")] = aimKMbox;
+        j[ConfigName][LIT("aimKeyKM")] = aimKeyKM;
         j[ConfigName][LIT("smoothKM")] = smoothKM;
         j[ConfigName][LIT("fovKM")] = fovKM;
         j[ConfigName][LIT("fovCircle")] = fovCircle;
