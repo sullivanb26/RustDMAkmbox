@@ -11,6 +11,8 @@ public:
     }
     bool Enable = true;
     bool Name = true;
+    bool Box = true;
+    int Width = 2;
     bool Distance = true;
     int MaxDistance = 300;
     D2D1::ColorF Colour = D2D1::ColorF(1.0f, 0.0f, 0.0f, 1.0f);
@@ -38,6 +40,8 @@ public:
         json j;
         j[ConfigName][LIT("Enable")] = Enable;
         j[ConfigName][LIT("Name")] = Name;
+        j[ConfigName][LIT("Box")] = Box;
+        j[ConfigName][LIT("Width")] = Width;
         j[ConfigName][LIT("Distance")] = Distance;
         j[ConfigName][LIT("MaxDistance")] = MaxDistance;
         ToJsonColour(&j, LIT("Colour"), &Colour);
@@ -51,6 +55,10 @@ public:
             Enable = j[ConfigName][LIT("Enable")];
         if (j[ConfigName].contains(LIT("Name")))
             Name = j[ConfigName][LIT("Name")];
+        if (j[ConfigName].contains(LIT("Box")))
+            Name = j[ConfigName][LIT("Box")];
+        if (j[ConfigName].contains(LIT("Width")))
+            Name = j[ConfigName][LIT("Width")];
         if (j[ConfigName].contains(LIT("Distance")))
             Distance = j[ConfigName][LIT("Distance")];
         if (j[ConfigName].contains(LIT("MaxDistance")))

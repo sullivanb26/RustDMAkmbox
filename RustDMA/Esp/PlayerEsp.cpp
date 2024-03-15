@@ -50,7 +50,20 @@ void DrawPlayers()
 		std::wstring name = ConfigInstance.PlayerESP.Name ? player->GetName() : LIT(L"");
 		std::wstring distancestr = ConfigInstance.PlayerESP.Distance ? LIT(L"[") + std::to_wstring(distance) + LIT(L"m]") : LIT(L"");
 		DrawText(screenpos.x, screenpos.y, name + distancestr, LIT("Verdana"), 11, ConfigInstance.PlayerESP.Colour, FontAlignment::Centre);
-
+		if(ConfigInstance.PlayerESP.Box) {
+			Vector3 headPosition = player->GetPosition(); // Need to get head bone position
+			if (headPosition == Vector3(0, 0, 0));
+				continue;
+			Vector2 headScreenpos = WorldToScreen(headPosition);
+			if (headScreenpos.x == 0 && headScreenpos.y == 0)
+				continue;
+			int heightOf = screenpos.y-headScreenpos.y;
+			int widthOf = heightOf/2;
+			Vector2 boxpos;
+			boxpos.x = screenpos.x-(widthOf/2);
+			boxpos.y = screenpos.y;
+			OutlineRectangle(boxpos.x, boxpos.y, heightOf, widthOf, ConfigInstance.PlayerESP.Width, ConfigInstance.PlayerESP.Colour)
+		}
 
 	}
 }
