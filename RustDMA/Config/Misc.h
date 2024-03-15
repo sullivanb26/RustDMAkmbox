@@ -93,6 +93,8 @@ public:
             RecoilY = j[ConfigName][LIT("RecoilYKMbox")];
         if (j[ConfigName].contains(LIT("aimKMbox")))
             NoRecoil = j[ConfigName][LIT("aimKMbox")];
+        if (j[ConfigName].contains(LIT("aimKeyKM")))
+            NoRecoil = j[ConfigName][LIT("aimKeyKM")];
         if (j[ConfigName].contains(LIT("smoothKM")))
             RecoilX = j[ConfigName][LIT("smoothKM")];
         if (j[ConfigName].contains(LIT("fovKM")))
