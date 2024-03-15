@@ -57,7 +57,14 @@ void CreateGUI()
 			mainTab->Push(recoilxKM);
 			auto recoilyKM = std::make_shared<Slider<int>>(10, 150, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilYKMbox);
 			mainTab->Push(recoilyKM);
-
+			auto aimKM = std::make_shared<Toggle>(10, 170, LIT(L"KMBox Aimbot"), &ConfigInstance.Misc.aimKMbox);
+			mainTab->Push(aimKM);
+			auto aimSmoothKM = std::make_shared<Slider<int>>(10, 190, 150, LIT(L"Smoothing"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.smoothKM);
+			mainTab->Push(aimSmoothKM);
+			auto aimFOVKM = std::make_shared<Slider<int>>(10, 210, 150, LIT(L"FOV"), LIT(L"%"), 0, 180, &ConfigInstance.Misc.fovKM);
+			mainTab->Push(aimFOVKM);
+			auto fovCircle = std::make_shared<Toggle>(10, 230, LIT(L"FOV Circle"), &ConfigInstance.Misc.fovCircle);
+			mainTab->Push(fovCircle);
 
 			auto unsafeLabel = std::make_shared<Label>(L"Unsafe Features", 180, 10);
 			mainTab->Push(unsafeLabel);

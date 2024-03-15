@@ -14,14 +14,14 @@ public:
 		json jsoned;
 		jsoned.merge_patch(Misc.ToJson());
 		jsoned.merge_patch(PlayerESP.ToJson());
-		std::string mergePath = "C:\\" + std::to_string(configNum) + ".json";
+		std::string mergePath = "C:\\" + std::to_string(configNum) + "cnfg.json";
 		std::ofstream config(mergePath);
 		config << jsoned;
 	}
 
 	void FromJson(int configNum)
 	{
-		std::string mergePath = "C:\\" + std::to_string(configNum) + ".json";
+		std::string mergePath = "C:\\" + std::to_string(configNum) + "cnfg.json";
 		std::ifstream config(mergePath);
 		json jsoned = json::parse(config);
 		Misc.FromJson(jsoned);

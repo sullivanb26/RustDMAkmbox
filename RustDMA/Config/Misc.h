@@ -13,6 +13,11 @@ public:
     bool NoRecoilKMbox = false;
     int RecoilXKMbox = 25;
     int RecoilYKMbox = 25;
+    bool aimKMbox = false;
+    int smoothKM = 25;
+    int fovKM = 25;
+    bool fovCircle = true;
+
     bool UnsafeFeat = false;
     bool AdminESP = true;
     bool ChangeTime = false;
@@ -52,6 +57,10 @@ public:
         j[ConfigName][LIT("NoRecoilKMbox")] = NoRecoilKMbox;
         j[ConfigName][LIT("RecoilXKMbox")] = RecoilXKMbox;
         j[ConfigName][LIT("RecoilYKMbox")] = RecoilYKMbox;
+        j[ConfigName][LIT("aimKMbox")] = aimKMbox;
+        j[ConfigName][LIT("smoothKM")] = smoothKM;
+        j[ConfigName][LIT("fovKM")] = fovKM;
+        j[ConfigName][LIT("fovCircle")] = fovCircle;
         j[ConfigName][LIT("UnsafeFeat")] = UnsafeFeat;
         j[ConfigName][LIT("AdminESP")] = AdminESP;
         j[ConfigName][LIT("ChangeTime")] = ChangeTime;
@@ -80,6 +89,14 @@ public:
             RecoilX = j[ConfigName][LIT("RecoilXKMbox")];
         if (j[ConfigName].contains(LIT("RecoilYKMbox")))
             RecoilY = j[ConfigName][LIT("RecoilYKMbox")];
+        if (j[ConfigName].contains(LIT("aimKMbox")))
+            NoRecoil = j[ConfigName][LIT("aimKMbox")];
+        if (j[ConfigName].contains(LIT("smoothKM")))
+            RecoilX = j[ConfigName][LIT("smoothKM")];
+        if (j[ConfigName].contains(LIT("fovKM")))
+            RecoilY = j[ConfigName][LIT("fovKM")];
+        if (j[ConfigName].contains(LIT("fovCircle")))
+            UnsafeFeat = j[ConfigName][LIT("fovCircle")];
         if (j[ConfigName].contains(LIT("UnsafeFeat")))
             UnsafeFeat = j[ConfigName][LIT("UnsafeFeat")];
         if (j[ConfigName].contains(LIT("AdminESP")))
