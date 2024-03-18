@@ -3,6 +3,7 @@
 
 > [!NOTE]
 > A new KMBox B+ Pro is on the way and I can test the cheat soon :)
+> The cheat as of now is ***NOT*** FUNCTIONAL, it is still in the works and not ready to be compiled fully
 
 # Rust DMA Cheat
 A little DMA cheat for Rust. Some basic functions. A basic and easy to update SDK.
