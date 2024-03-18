@@ -166,13 +166,13 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 				double recoilYPer = ConfigInstance.Misc.RecoilYKMbox;
 				std::shared_ptr <ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
 				double fov = graphics->ReadFOV(); // May backup to input
-				double weaponNum = 0.0;
+				int weaponNum = 0;
 				for (int i = 0; i < sizeof(recoil_tables[weaponNum]); i++) {
 					double angleX = recoil_tables[weaponNum][i][0];
 					double angleY = recoil_tables[weaponNum][i][1];
 					double xMoveABS;
 					double yMoveABS;
-					if (((GetKeyState(VK_RBUTTON) && 0x8000) != 0) && ((GetKeyState(VK_LBUTTON) && 0x8000) != 0)) {
+					if ((GetKeyState(VK_RBUTTON) && 0x8000) != 0) {
 						xMoveABS = angleX / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
 						yMoveABS = angleY / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
 					}
@@ -182,7 +182,8 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 					}
 					double xMoveREL = resolutionX / 2 + (xMoveABS * (recoilXPer / 100));
 					double yMoveREL = resolutionY / 2 + (yMoveABS * (recoilYPer / 100));
-					km_move(xMoveREL, yMoveREL);
+					if((GetKeyState(VK_LBUTTON) && 0x8000) != 0)
+						km_move(xMoveREL, yMoveREL);
 				}
 
 				// TO DO
