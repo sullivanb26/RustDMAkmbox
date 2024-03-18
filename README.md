@@ -1,9 +1,12 @@
 > [!WARNING]
 > This repo is a work in progress. Stuff will change over time
 
+> [!IMPORTANT]
+> This cheat is in **PROGRESS** do not expect it to function and compile
+> * If you have any reccomendations/find bugs please open an issue ticket or a pull request
+
 > [!NOTE]
 > A new KMBox B+ Pro is on the way and I can test the cheat soon :)
-> The cheat as of now is ***NOT*** FUNCTIONAL, it is still in the works and not ready to be compiled fully
 
 # Rust DMA Cheat
 A little DMA cheat for Rust. Some basic functions. A basic and easy to update SDK.
