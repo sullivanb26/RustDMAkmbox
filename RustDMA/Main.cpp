@@ -183,7 +183,12 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 					double xMoveREL = resolutionX / 2 + (xMoveABS * (recoilXPer / 100));
 					double yMoveREL = resolutionY / 2 + (yMoveABS * (recoilYPer / 100));
 					if((GetKeyState(VK_LBUTTON) && 0x8000) != 0)
-						km_move(xMoveREL, yMoveREL);
+						if(i=0) {
+							Sleep(weapon_delays[weaponNum]);
+							km_move(xMoveREL, yMoveREL);
+						} else {
+							km_move(xMoveREL, yMoveREL);
+						}
 				}
 
 				// TO DO
