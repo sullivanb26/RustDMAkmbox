@@ -26,8 +26,11 @@ std::shared_ptr<CheatFunction> UpdatePlayers = std::make_shared<CheatFunction>(2
 
 void DrawPlayers()
 {
-	if(!ConfigInstance.PlayerESP.Enable)
-				return;
+	if(ConfigInstance.MiscConfig.fovCircle) {
+		int width = GetSystemMetrics(SM_CYSCREEN) * ConfigInstance.MiscConfig.fovKM/180;
+		OutlineCircle(GetSystemMetrics(SM_CXSCREEN)/2, GetSystemMetrics(SM_CYSCREEN)/2, width/2, 3.14f, D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+	if(ConfigInstance.PlayerESP.Enable) {
 	for (std::shared_ptr<BasePlayer> player : BaseLocalPlayer->GetPlayerList())
 	{
 		if (!player->IsPlayerValid())
@@ -62,8 +65,9 @@ void DrawPlayers()
 			Vector2 boxpos;
 			boxpos.x = screenpos.x-(widthOf/2);
 			boxpos.y = screenpos.y;
-			OutlineRectangle(boxpos.x, boxpos.y, heightOf, widthOf, ConfigInstance.PlayerESP.Width, ConfigInstance.PlayerESP.Colour)
+			OutlineRectangle(boxpos.x, boxpos.y, heightOf, widthOf, ConfigInstance.PlayerESP.Width, ConfigInstance.PlayerESP.Colour);
 		}
+	}
 
 	}
 }
