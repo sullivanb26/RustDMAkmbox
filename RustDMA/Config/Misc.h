@@ -20,7 +20,7 @@ public:
     bool fovCircle = true;
 
     bool UnsafeFeat = false;
-    bool AdminESP = true;
+    bool AdminESP = false;
     bool ChangeTime = false;
     int Time = 12;
     bool RemoveWaterEffect = false;
@@ -29,10 +29,10 @@ public:
     int Fov = 100;
     bool BrightNights = false;
     bool BrightCaves = false;
-    bool NoRecoil = true;
+    bool NoRecoil = false;
     int RecoilX = 25;
     int RecoilY = 25;
-    bool SpiderMan = true;
+    bool SpiderMan = false;
     void ToJsonColour(json* j, const std::string& name, D2D1::ColorF* colour)
     {
         (*j)[ConfigName][name][LIT("r")] = colour->r;
