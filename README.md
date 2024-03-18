@@ -13,6 +13,11 @@ Forked From [IntelSDM's DMA Cheat](https://github.com/IntelSDM/RustDMACheat)
 > Features marked with a **\*** were original features that were not modified by me (Except for requiring unsafe check for the unsafe features)
 - Safe Features
     * Player Fuser ESP
+       * Box Esp
+    * KMBox B+ Pro Anti-Recoil
+       * Almost complete
+    * KMBox B+ Pro Aimbot
+       * In the works (not close to finish)
 - Unsafe Features
     * **\*** Admin ESP
     * **\*** No Recoil / Recoil Modifier (via memory)
@@ -32,6 +37,8 @@ Forked From [IntelSDM's DMA Cheat](https://github.com/IntelSDM/RustDMACheat)
     * KM-Box B+ Aimbot 
       * May not support KM-Box Net
       * May take a while due to lack of *English* documentation
+   * Skeleton ESP
+      * Bone checks for enemy which meansdifferent aimlocks possible
 
 ## FAQ
 - What does unsafe mean?
