@@ -55,7 +55,7 @@ void DrawPlayers()
 		DrawText(screenpos.x, screenpos.y, name + distancestr, LIT("Verdana"), 11, ConfigInstance.PlayerESP.Colour, FontAlignment::Centre);
 		if(ConfigInstance.PlayerESP.Box) {
 			Vector3 headPosition = player->GetPosition(); // Need to get head bone position
-			if (headPosition == Vector3(0, 0, 0));
+			if (headPosition == Vector3(0, 0, 0))
 				continue;
 			Vector2 headScreenpos = WorldToScreen(headPosition);
 			if (headScreenpos.x == 0 && headScreenpos.y == 0)
