@@ -37,46 +37,44 @@ void CreateGUI()
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 
-		auto mainTab = std::make_shared<Tab>(L"Main", 5, 55, &SelectedTab, 50, 20);
+		auto safeTab = std::make_shared<Tab>(L"Safe", 5, 55, &SelectedTab, 50, 20);
 		{
-			auto safeLabel = std::make_shared<Label>(L"Safe Features", 10, 10);
-			mainTab->Push(safeLabel);
-			auto enableplayeresp = std::make_shared<Toggle>(10, 30, LIT(L"Enable Player ESP"), &ConfigInstance.PlayerESP.Enable);
-			mainTab->Push(enableplayeresp);
-			auto playercolour = std::make_shared<ColourPicker>(150, 30, &ConfigInstance.PlayerESP.Colour);
-			mainTab->Push(playercolour);
-			auto playername = std::make_shared<Toggle>(10, 50, LIT(L"Player Name"), &ConfigInstance.PlayerESP.Name);
-			mainTab->Push(playername);
-			auto playerbox = std::make_shared<Toggle>(10, 70, LIT(L"Box"), &ConfigInstance.PlayerESP.Box);
-			mainTab->Push(playerbox);
-			auto playerboxwidth = std::make_shared<Slider<int>>(10, 90, 150, LIT(L"Width"), LIT(L"px"), 1, 10, &ConfigInstance.PlayerESP.Width);
-			mainTab->Push(playerboxwidth);
-			auto playerdistance = std::make_shared<Toggle>(10, 110, LIT(L"Player Distance"), &ConfigInstance.PlayerESP.Distance);
-			mainTab->Push(playerdistance);
-			auto playermaxdistance = std::make_shared<Slider<int>>(10, 130, 150, LIT(L"Max Distance"), LIT(L"m"), 0, 1000, &ConfigInstance.PlayerESP.MaxDistance);
-			mainTab->Push(playermaxdistance);
-			auto recoilKM = std::make_shared<Toggle>(10, 150, LIT(L"No Recoil KMBox"), &ConfigInstance.Misc.NoRecoilKMbox);
-			mainTab->Push(recoilKM);
-			auto recoilxKM = std::make_shared<Slider<int>>(10, 170, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilXKMbox);
-			mainTab->Push(recoilxKM);
-			auto recoilyKM = std::make_shared<Slider<int>>(10, 190, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilYKMbox);
-			mainTab->Push(recoilyKM);
-			auto aimKM = std::make_shared<Toggle>(10, 210, LIT(L"KMBox Aimbot"), &ConfigInstance.Misc.aimKMbox);
-			mainTab->Push(aimKM);
-			auto aimKey = std::make_shared<KeyBind>(10, 230, L"KeyBind", &ConfigInstance.Misc.aimKeyKM);
-			mainTab->Push(aimKey);
-			auto aimSmoothKM = std::make_shared<Slider<int>>(10, 250, 150, LIT(L"Smoothing"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.smoothKM);
-			mainTab->Push(aimSmoothKM);
-			auto aimFOVKM = std::make_shared<Slider<int>>(10, 270, 150, LIT(L"FOV"), LIT(L"%"), 0, 180, &ConfigInstance.Misc.fovKM);
-			mainTab->Push(aimFOVKM);
-			auto fovCircle = std::make_shared<Toggle>(10, 290, LIT(L"FOV Circle"), &ConfigInstance.Misc.fovCircle);
-			mainTab->Push(fovCircle);
-
-			auto unsafeLabel = std::make_shared<Label>(L"Unsafe Features", 180, 10);
-			mainTab->Push(unsafeLabel);
-			auto unsafeFeatures = std::make_shared<Toggle>(180, 35, LIT(L"Enable Unsafe Features?"), &ConfigInstance.Misc.UnsafeFeat);
-			mainTab->Push(unsafeFeatures);
-			auto adminesp = std::make_shared<Toggle>(180, 60, LIT(L"Admin Box ESP"), &ConfigInstance.Misc.AdminESP);
+			auto enableplayeresp = std::make_shared<Toggle>(10, 10, LIT(L"Enable Player ESP"), &ConfigInstance.PlayerESP.Enable);
+			safeTab->Push(enableplayeresp);
+			auto playercolour = std::make_shared<ColourPicker>(150, 10, &ConfigInstance.PlayerESP.Colour);
+			safeTab->Push(playercolour);
+			auto playername = std::make_shared<Toggle>(10, 30, LIT(L"Player Name"), &ConfigInstance.PlayerESP.Name);
+			safeTab->Push(playername);
+			auto playerbox = std::make_shared<Toggle>(10, 50, LIT(L"Box"), &ConfigInstance.PlayerESP.Box);
+			safeTab->Push(playerbox);
+			auto playerboxwidth = std::make_shared<Slider<int>>(10, 70, 150, LIT(L"Width"), LIT(L"px"), 1, 10, &ConfigInstance.PlayerESP.Width);
+			safeTab->Push(playerboxwidth);
+			auto playerdistance = std::make_shared<Toggle>(10, 90, LIT(L"Player Distance"), &ConfigInstance.PlayerESP.Distance);
+			safeTab->Push(playerdistance);
+			auto playermaxdistance = std::make_shared<Slider<int>>(10, 110, 150, LIT(L"Max Distance"), LIT(L"m"), 0, 1000, &ConfigInstance.PlayerESP.MaxDistance);
+			safeTab->Push(playermaxdistance);
+			auto recoilKM = std::make_shared<Toggle>(10, 130, LIT(L"No Recoil KMBox"), &ConfigInstance.Misc.NoRecoilKMbox);
+			safeTab->Push(recoilKM);
+			auto recoilxKM = std::make_shared<Slider<int>>(10, 150, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilXKMbox);
+			safeTab->Push(recoilxKM);
+			auto recoilyKM = std::make_shared<Slider<int>>(10, 170, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilYKMbox);
+			safeTab->Push(recoilyKM);
+			auto aimKM = std::make_shared<Toggle>(10, 190, LIT(L"KMBox Aimbot"), &ConfigInstance.Misc.aimKMbox);
+			safeTab->Push(aimKM);
+			auto aimKey = std::make_shared<KeyBind>(10, 210, L"KeyBind", &ConfigInstance.Misc.aimKeyKM);
+			safeTab->Push(aimKey);
+			auto aimSmoothKM = std::make_shared<Slider<int>>(10, 230, 150, LIT(L"Smoothing"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.smoothKM);
+			safeTab->Push(aimSmoothKM);
+			auto aimFOVKM = std::make_shared<Slider<int>>(10, 250, 150, LIT(L"FOV"), LIT(L"%"), 0, 180, &ConfigInstance.Misc.fovKM);
+			safeTab->Push(aimFOVKM);
+			auto fovCircle = std::make_shared<Toggle>(10, 270, LIT(L"FOV Circle"), &ConfigInstance.Misc.fovCircle);
+			safeTab->Push(fovCircle);
+		}
+		auto unsafeTab = std::make_shared<Tab>(L"Unsafe", 65, 55, &SelectedTab, 50, 20);
+		{
+			auto unsafeFeatures = std::make_shared<Toggle>(10, 10, LIT(L"Enable Unsafe Features?"), &ConfigInstance.Misc.UnsafeFeat);
+			unsafeTab->Push(unsafeFeatures);
+			auto adminesp = std::make_shared<Toggle>(10, 35, LIT(L"Admin Box ESP"), &ConfigInstance.Misc.AdminESP);
 			adminesp->SetValueChangedEvent([]()
 				{
 					std::shared_ptr<OcclusionCulling> occlusionculling = std::make_shared<OcclusionCulling>();
@@ -85,24 +83,24 @@ void CreateGUI()
 						occlusionculling->WriteDebugSettings(DebugFilter::Dynamic);
 						occlusionculling->WriteLayerMask(131072);
 					}
-					else
+					else if (ConfigInstance.Misc.UnsafeFeat)
 					{
 						occlusionculling->WriteDebugSettings(DebugFilter::Off);
 						occlusionculling->WriteLayerMask(0);
 					}
 				});
-			mainTab->Push(adminesp);
-			auto watereffect = std::make_shared<Toggle>(180, 80, LIT(L"Remove Water Effect"), &ConfigInstance.Misc.RemoveWaterEffect);
+			unsafeTab->Push(adminesp);
+			auto watereffect = std::make_shared<Toggle>(10, 55, LIT(L"Remove Water Effect"), &ConfigInstance.Misc.RemoveWaterEffect);
 			watereffect->SetValueChangedEvent([]()
 				{
 					std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
 					if (ConfigInstance.Misc.RemoveWaterEffect && ConfigInstance.Misc.UnsafeFeat)
 						convaradmin->ClearVisionInWater(true);
 				});
-			mainTab->Push(watereffect);
-			auto adminflag = std::make_shared<Toggle>(180, 100, LIT(L"Admin Flag"), &ConfigInstance.Misc.AdminFlag);
-			mainTab->Push(adminflag);
-			auto changetime = std::make_shared<Toggle>(180, 120, LIT(L"Change Time"), &ConfigInstance.Misc.ChangeTime);
+			unsafeTab->Push(watereffect);
+			auto adminflag = std::make_shared<Toggle>(10, 75, LIT(L"Admin Flag"), &ConfigInstance.Misc.AdminFlag);
+			unsafeTab->Push(adminflag);
+			auto changetime = std::make_shared<Toggle>(10, 95, LIT(L"Change Time"), &ConfigInstance.Misc.ChangeTime);
 			changetime->SetValueChangedEvent([]()
 				{
 					std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
@@ -111,47 +109,47 @@ void CreateGUI()
 					else
 						convaradmin->SetAdminTime(-1);
 				});
-			mainTab->Push(changetime);
-			auto time = std::make_shared<Slider<int>>(180, 140, 150, LIT(L"Time"), LIT(L"°"), 0, 24, &ConfigInstance.Misc.Time);
+			unsafeTab->Push(changetime);
+			auto time = std::make_shared<Slider<int>>(10, 115, 150, LIT(L"Time"), LIT(L"°"), 0, 24, &ConfigInstance.Misc.Time);
 			time->SetValueChangedEvent([]()
 				{
 					std::shared_ptr<ConvarAdmin> convaradmin = std::make_shared<ConvarAdmin>();
 					if (ConfigInstance.Misc.ChangeTime && ConfigInstance.Misc.UnsafeFeat)
 						convaradmin->SetAdminTime(ConfigInstance.Misc.Time);
-					else
+					else if (ConfigInstance.Misc.UnsafeFeat)
 						convaradmin->SetAdminTime(-1);
 				});
-			mainTab->Push(time);
-			auto changefov = std::make_shared<Toggle>(180, 165, LIT(L"Change FOV"), &ConfigInstance.Misc.ChangeFov);
+			unsafeTab->Push(time);
+			auto changefov = std::make_shared<Toggle>(10, 140, LIT(L"Change FOV"), &ConfigInstance.Misc.ChangeFov);
 			changefov->SetValueChangedEvent([]()
 				{
 					std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
 					if (ConfigInstance.Misc.ChangeFov && ConfigInstance.Misc.UnsafeFeat)
 						graphics->WriteFOV(ConfigInstance.Misc.Fov);
 				});
-			mainTab->Push(changefov);
-			auto fovamount = std::make_shared<Slider<int>>(180, 185, 150, LIT(L"FOV Amount"), LIT(L"°"), 0, 150, &ConfigInstance.Misc.Fov);
+			unsafeTab->Push(changefov);
+			auto fovamount = std::make_shared<Slider<int>>(10, 160, 150, LIT(L"FOV Amount"), LIT(L"°"), 0, 150, &ConfigInstance.Misc.Fov);
 			fovamount->SetValueChangedEvent([]()
 				{
 					std::shared_ptr<ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
 					if (ConfigInstance.Misc.ChangeFov && ConfigInstance.Misc.UnsafeFeat)
 						graphics->WriteFOV(ConfigInstance.Misc.Fov);
 				});
-			mainTab->Push(fovamount);
-			auto brightnights = std::make_shared<Toggle>(180, 210, LIT(L"Bright Nights"), &ConfigInstance.Misc.BrightNights);
-			mainTab->Push(brightnights);
-			auto brightcaves = std::make_shared<Toggle>(180, 230, LIT(L"Bright Caves"), &ConfigInstance.Misc.BrightCaves);
-			mainTab->Push(brightcaves);
-			auto norecoil = std::make_shared<Toggle>(180, 250, LIT(L"No Recoil"), &ConfigInstance.Misc.NoRecoil);
-			mainTab->Push(norecoil);
-			auto recoilx = std::make_shared<Slider<int>>(180, 270, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilX);
-			mainTab->Push(recoilx);
-			auto recoily = std::make_shared<Slider<int>>(180, 295, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilY);
-			mainTab->Push(recoily);
-			auto spiderman = std::make_shared<Toggle>(180, 315, LIT(L"Spiderman"), &ConfigInstance.Misc.SpiderMan);
-			mainTab->Push(spiderman);
+			unsafeTab->Push(fovamount);
+			auto brightnights = std::make_shared<Toggle>(10, 185, LIT(L"Bright Nights"), &ConfigInstance.Misc.BrightNights);
+			unsafeTab->Push(brightnights);
+			auto brightcaves = std::make_shared<Toggle>(10, 205, LIT(L"Bright Caves"), &ConfigInstance.Misc.BrightCaves);
+			unsafeTab->Push(brightcaves);
+			auto norecoil = std::make_shared<Toggle>(10, 225, LIT(L"No Recoil"), &ConfigInstance.Misc.NoRecoil);
+			unsafeTab->Push(norecoil);
+			auto recoilx = std::make_shared<Slider<int>>(10, 245, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilX);
+			unsafeTab->Push(recoilx);
+			auto recoily = std::make_shared<Slider<int>>(10, 270, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilY);
+			unsafeTab->Push(recoily);
+			auto spiderman = std::make_shared<Toggle>(10, 290, LIT(L"Spiderman"), &ConfigInstance.Misc.SpiderMan);
+			unsafeTab->Push(spiderman);
 		}
-		auto configTab = std::make_shared<Tab>(L"Config", 65, 55, &SelectedTab, 50, 20);
+		auto configTab = std::make_shared<Tab>(L"Config", 125, 55, &SelectedTab, 50, 20);
 		{
 			std::list<std::wstring> configValues = {L"1", L"2", L"3", L"4"};
 			auto configDropdown = std::make_shared<DropDown>(10, 30, L"Config", &ConfigNumber, configValues);
@@ -165,7 +163,8 @@ void CreateGUI()
 			});
 			configTab->Push(saveConfig);
 		}
-		tabcontroller->Push(mainTab);
+		tabcontroller->Push(safeTab);
+		tabcontroller->Push(unsafeTab);
 		tabcontroller->Push(configTab);
 	}
 
