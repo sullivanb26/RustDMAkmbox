@@ -267,7 +267,7 @@ void main()
 		return;
 	}
 	printf("\n	[+] Connected to the kmbox with ");
-	printf(port);
+	printf(port.c_str());
 	printf("\n	[+] Proceeding to Rust client");
 	if (!TargetProcess.Init("RustClient.exe"))
 	{

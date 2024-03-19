@@ -17,6 +17,7 @@ std::shared_ptr<CheatFunction> UpdatePlayers = std::make_shared<CheatFunction>(2
 		if (player->IsSleeping())
 			continue;
 		player->UpdatePosition(handle);
+		player->UpdateBonePositions(handle);
 		player->UpdateDestroyed(handle);
 		player->UpdateActiveFlag(handle);
 	}
@@ -26,8 +27,8 @@ std::shared_ptr<CheatFunction> UpdatePlayers = std::make_shared<CheatFunction>(2
 
 void DrawPlayers()
 {
-	if(ConfigInstance.MiscConfig.fovCircle) {
-		int width = GetSystemMetrics(SM_CYSCREEN) * ConfigInstance.MiscConfig.fovKM/180;
+	if(ConfigInstance.Misc.fovCircle) {
+		int width = GetSystemMetrics(SM_CYSCREEN) * ConfigInstance.Misc.fovKM/180;
 		OutlineCircle(GetSystemMetrics(SM_CXSCREEN)/2, GetSystemMetrics(SM_CYSCREEN)/2, width/2, 3.14f, D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 	if(ConfigInstance.PlayerESP.Enable) {
@@ -54,7 +55,7 @@ void DrawPlayers()
 		std::wstring distancestr = ConfigInstance.PlayerESP.Distance ? LIT(L"[") + std::to_wstring(distance) + LIT(L"m]") : LIT(L"");
 		DrawText(screenpos.x, screenpos.y, name + distancestr, LIT("Verdana"), 11, ConfigInstance.PlayerESP.Colour, FontAlignment::Centre);
 		if(ConfigInstance.PlayerESP.Box) {
-			Vector3 headPosition = player->GetPosition(); // Need to get head bone position
+			Vector3 headPosition = player->GetBonePositions(3); // Need to get head bone position update # to head bone
 			if (headPosition == Vector3(0, 0, 0))
 				continue;
 			Vector2 headScreenpos = WorldToScreen(headPosition);

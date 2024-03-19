@@ -17,6 +17,7 @@ public:
 		std::string mergePath = "C:\\" + std::to_string(configNum) + "cnfg.json";
 		std::ofstream config(mergePath);
 		config << jsoned;
+		return 0;
 	}
 
 	void FromJson(int configNum)
