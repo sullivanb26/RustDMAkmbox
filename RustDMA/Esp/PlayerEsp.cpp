@@ -17,7 +17,6 @@ std::shared_ptr<CheatFunction> UpdatePlayers = std::make_shared<CheatFunction>(2
 		if (player->IsSleeping())
 			continue;
 		player->UpdatePosition(handle);
-		player->UpdateBonePositions(handle);
 		player->UpdateDestroyed(handle);
 		player->UpdateActiveFlag(handle);
 	}
@@ -29,7 +28,7 @@ void DrawPlayers()
 {
 	if(ConfigInstance.Misc.fovCircle) {
 		int width = GetSystemMetrics(SM_CYSCREEN) * ConfigInstance.Misc.fovKM/180;
-		OutlineCircle(GetSystemMetrics(SM_CXSCREEN)/2, GetSystemMetrics(SM_CYSCREEN)/2, width/2, 3.14f, D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f));
+		OutlineCircle(GetSystemMetrics(SM_CXSCREEN)/2, GetSystemMetrics(SM_CYSCREEN)/2, width/2, 1.0f, D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 	if(ConfigInstance.PlayerESP.Enable) {
 	for (std::shared_ptr<BasePlayer> player : BaseLocalPlayer->GetPlayerList())
@@ -55,18 +54,22 @@ void DrawPlayers()
 		std::wstring distancestr = ConfigInstance.PlayerESP.Distance ? LIT(L"[") + std::to_wstring(distance) + LIT(L"m]") : LIT(L"");
 		DrawText(screenpos.x, screenpos.y, name + distancestr, LIT("Verdana"), 11, ConfigInstance.PlayerESP.Colour, FontAlignment::Centre);
 		if(ConfigInstance.PlayerESP.Box) {
-			Vector3 headPosition = player->GetBonePositions(3); // Need to get head bone position update # to head bone
-			if (headPosition == Vector3(0, 0, 0))
-				continue;
+			Vector3 headPosition = player->GetPosition();
+			headPosition.y = headPosition.y + 1.6;
+			
 			Vector2 headScreenpos = WorldToScreen(headPosition);
 			if (headScreenpos.x == 0 && headScreenpos.y == 0)
 				continue;
-			int heightOf = screenpos.y-headScreenpos.y;
+			int radiusOf = 125/distance;
+			printf("\n\n %d", distance);
+			printf("\n %d", radiusOf);
+			OutlineCircle(headScreenpos.x, headScreenpos.y, radiusOf, ConfigInstance.PlayerESP.Width, ConfigInstance.PlayerESP.Colour);
+			/*int heightOf = screenpos.y - headScreenpos.y;
 			int widthOf = heightOf/2;
 			Vector2 boxpos;
 			boxpos.x = screenpos.x-(widthOf/2);
 			boxpos.y = screenpos.y;
-			OutlineRectangle(boxpos.x, boxpos.y, heightOf, widthOf, ConfigInstance.PlayerESP.Width, ConfigInstance.PlayerESP.Colour);
+			OutlineRectangle(boxpos.x, boxpos.y, widthOf, heightOf, ConfigInstance.PlayerESP.Width, ConfigInstance.PlayerESP.Colour);*/
 		}
 	}
 

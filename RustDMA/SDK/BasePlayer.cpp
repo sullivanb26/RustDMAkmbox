@@ -2,6 +2,7 @@
 #include "Globals.h"
 #include "BasePlayer.h"
 #include <vector>
+#include <stringapiset.h>
 
 BasePlayer::BasePlayer(uint64_t address,VMMDLL_SCATTER_HANDLE handle)
 {
@@ -27,85 +28,6 @@ void BasePlayer::InitializePlayerList()
 int BasePlayer::GetPlayerListSize()
 {
 	return PlayerListSize;
-}
-
-
-struct TransformAccessReadOnly
-{
-	ULONGLONG	pTransformData;
-	int			index;
-};
-struct TransformData
-{
-	ULONGLONG pTransformArray;
-	ULONGLONG pTransformIndices;
-};
-struct Vector4 
-{
-	double x, y, z, w;
-};
-struct Matrix34
-{
-	Vector4 vec0;
-	Vector4 vec1;
-	Vector4 vec2;
-};
-Vector3 BasePlayer::getBonePosition(uint64_t bone_entity)
-{
-	uint64_t transform = TargetProcess.Read<uint64_t>(bone_entity + 0x10);
-	__m128 result;
-
-	const __m128 mulVec0 = { -2.000, 2.000, -2.000, 0.000 };
-	const __m128 mulVec1 = { 2.000, -2.000, -2.000, 0.000 };
-	const __m128 mulVec2 = { -2.000, -2.000, 2.000, 0.000 };
-
-	TransformAccessReadOnly pTransformAccessReadOnly = TargetProcess.Read<TransformAccessReadOnly>(transform + 0x38);
-	unsigned int index = TargetProcess.Read<unsigned int>(transform + 0x40);
-	TransformData transformData = TargetProcess.Read<TransformData>(pTransformAccessReadOnly.pTransformData + 0x18);
-
-	if (transformData.pTransformArray && transformData.pTransformIndices)
-	{
-		result = TargetProcess.Read<__m128>(transformData.pTransformArray + (uint64_t)0x30 * index);
-		int transformIndex = TargetProcess.Read<int>(transformData.pTransformIndices + (uint64_t)0x4 * index);
-		int pSafe = 0;
-		while (transformIndex >= 0 && pSafe++ < 200)
-		{
-			Matrix34 matrix34 = TargetProcess.Read<Matrix34>(transformData.pTransformArray + (uint64_t)0x30 * transformIndex);
-
-			__m128 xxxx = _mm_castsi128_ps(_mm_shuffle_epi32(*(__m128i*)(&matrix34.vec1), 0x00));	// xxxx
-			__m128 yyyy = _mm_castsi128_ps(_mm_shuffle_epi32(*(__m128i*)(&matrix34.vec1), 0x55));	// yyyy
-			__m128 zwxy = _mm_castsi128_ps(_mm_shuffle_epi32(*(__m128i*)(&matrix34.vec1), 0x8E));	// zwxy
-			__m128 wzyw = _mm_castsi128_ps(_mm_shuffle_epi32(*(__m128i*)(&matrix34.vec1), 0xDB));	// wzyw
-			__m128 zzzz = _mm_castsi128_ps(_mm_shuffle_epi32(*(__m128i*)(&matrix34.vec1), 0xAA));	// zzzz
-			__m128 yxwy = _mm_castsi128_ps(_mm_shuffle_epi32(*(__m128i*)(&matrix34.vec1), 0x71));	// yxwy
-			__m128 tmp7 = _mm_mul_ps(*(__m128*)(&matrix34.vec2), result);
-
-			result = _mm_add_ps(
-				_mm_add_ps(
-					_mm_add_ps(
-						_mm_mul_ps(
-							_mm_sub_ps(
-								_mm_mul_ps(_mm_mul_ps(xxxx, mulVec1), zwxy),
-								_mm_mul_ps(_mm_mul_ps(yyyy, mulVec2), wzyw)),
-							_mm_castsi128_ps(_mm_shuffle_epi32(_mm_castps_si128(tmp7), 0xAA))),
-						_mm_mul_ps(
-							_mm_sub_ps(
-								_mm_mul_ps(_mm_mul_ps(zzzz, mulVec2), wzyw),
-								_mm_mul_ps(_mm_mul_ps(xxxx, mulVec0), yxwy)),
-							_mm_castsi128_ps(_mm_shuffle_epi32(_mm_castps_si128(tmp7), 0x55)))),
-					_mm_add_ps(
-						_mm_mul_ps(
-							_mm_sub_ps(
-								_mm_mul_ps(_mm_mul_ps(yyyy, mulVec0), yxwy),
-								_mm_mul_ps(_mm_mul_ps(zzzz, mulVec1), zwxy)),
-							_mm_castsi128_ps(_mm_shuffle_epi32(_mm_castps_si128(tmp7), 0x00))),
-						tmp7)), *(__m128*)(&matrix34.vec0));
-
-			transformIndex = TargetProcess.Read<int>(transformData.pTransformIndices + (uint64_t)0x4 * transformIndex);
-		}
-	}
-
-	return Vector3(result.m128_f32[0], result.m128_f32[1], result.m128_f32[2]);
 }
 
 void BasePlayer::CacheStage1(VMMDLL_SCATTER_HANDLE handle)
@@ -245,12 +167,10 @@ std::shared_ptr<Item> BasePlayer::GetActiveItem()
 	{
 		if (item == NULL)
 			continue; // no wasting reads and writes on null pointers
-
 		int activeweaponid = item->GetItemID();
 
 		if (ActiveItemID == activeweaponid)
 		{
-
 			founditem =  item;
 			break;
 		}
@@ -294,19 +214,8 @@ uint64_t BasePlayer::GetClass()
 	return Class;
 }
 void BasePlayer::UpdatePosition(VMMDLL_SCATTER_HANDLE handle)
-{
+{	
 	TargetProcess.AddScatterReadRequest(handle, PlayerModel + Position, reinterpret_cast<void*>(&TransformPosition), sizeof(Vector3));
-}
-void BasePlayer::UpdateBonePositions(VMMDLL_SCATTER_HANDLE handle)
-{
-	BonePositionsVector.clear();
-	auto entity_model = TargetProcess.Read<uint64_t>(BaseEntity + model);
-	auto bone_transforms = TargetProcess.Read<uint64_t>(entity_model + boneTransforms);
-	for (int bone_num = 0; bone_num < 13; bone_num++) {
-		auto entity_bone = TargetProcess.Read<uint64_t>(bone_transforms + (0x20 + (bone_num * 0x8)));
-		auto bone = TargetProcess.Read<uint64_t>(entity_bone + 0x10);
-		BonePositionsVector.push_back(getBonePosition(bone));
-	}
 }
 void BasePlayer::UpdateDestroyed(VMMDLL_SCATTER_HANDLE handle)
 {
@@ -315,10 +224,6 @@ void BasePlayer::UpdateDestroyed(VMMDLL_SCATTER_HANDLE handle)
 Vector3 BasePlayer::GetPosition()
 {
 	return TransformPosition;
-}
-Vector3 BasePlayer::GetBonePositions(int bone_index)
-{
-	return BonePositionsVector[bone_index];
 }
 void BasePlayer::UpdateActiveFlag(VMMDLL_SCATTER_HANDLE handle)
 {

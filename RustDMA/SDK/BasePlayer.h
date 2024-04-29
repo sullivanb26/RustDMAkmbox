@@ -50,21 +50,11 @@ static enum StanceFlags : int
 class BasePlayer
 {
 	/*
-	"Address": 60662240,
-	"Name" : "BaseEntity_TypeInfo",
-	"Signature" : "BaseEntity_c*"
-	*/
-	uint64_t BaseEntity = 0x39DA1E0; 
-	uint64_t model = 0xB8; // BaseEntity -> model
-	uint64_t Model = 0x3F3270;
-	uint64_t boneTransforms = 0x48; // Model -> boneTransforms
-	std::vector<Vector3> BonePositionsVector {Vector3::Zero(), Vector3::Zero()};
-	/*
 	"Address": 54626928,
 	"Name": "BasePlayer_TypeInfo",
 	"Signature": "BasePlayer_c*"
 	*/
-	uint64_t StaticClass = 0x39DB448;
+	uint64_t StaticClass = 0x39DC588;
 	uint64_t Class = 0;
 	uint64_t PlayerFlag = 0x8F0; // 	public global::BasePlayer.PlayerFlags playerFlags;
 	uint64_t BaseMovementOffset = 0x6B8; // public BaseMovement movement;
@@ -96,8 +86,6 @@ class BasePlayer
 	int ActiveFlag = 0;
 
 public:
-	BasePlayer() : BonePositions{ Vector3::Zero(), Vector3::Zero() } {}
-	Vector3 BonePositions[];
 	BasePlayer(uint64_t address, VMMDLL_SCATTER_HANDLE handle);
 	~BasePlayer();
 	uint64_t GetClass();
@@ -111,7 +99,6 @@ public:
 	bool IsPlayerValid();
 	void SetupBeltContainerList();
 	void InitializePlayerList();
-	Vector3 getBonePosition(uint64_t transform);
 	void CachePlayers();
 	int GetPlayerListSize();
 	void CacheStage1(VMMDLL_SCATTER_HANDLE handle);
@@ -120,10 +107,8 @@ public:
 	std::wstring GetName();
 	std::vector<std::shared_ptr<BasePlayer>> GetPlayerList();
 	void UpdatePosition(VMMDLL_SCATTER_HANDLE handle);
-	void UpdateBonePositions(VMMDLL_SCATTER_HANDLE handle);
 	void UpdateDestroyed(VMMDLL_SCATTER_HANDLE handle);
 	Vector3 GetPosition();
-	Vector3 GetBonePositions(int bone_index);
 	void UpdateActiveFlag(VMMDLL_SCATTER_HANDLE handle);
 	int GetActiveFlag();
 	void WriteActiveFlag(int pose);

@@ -20,7 +20,7 @@
 #include "ConvarAdmin.h"
 #include "ConvarGraphics.h"
 #include "ConfigInstance.h"
-int SelectedTab = 1;
+int SelectedTab = 0;
 int TabCount = 0;
 int KeyBindClipBoard = 0;
 int ConfigNumber = 0;
@@ -37,7 +37,7 @@ void CreateGUI()
 		auto tabcontroller = std::make_shared<TabController>();
 		form->Push(tabcontroller);
 
-		auto safeTab = std::make_shared<Tab>(L"Safe", 5, 55, &SelectedTab, 50, 20);
+		auto safeTab = std::make_shared<Tab>(L"Safe", 5, 295, &SelectedTab, 50, 20);
 		{
 			auto enableplayeresp = std::make_shared<Toggle>(10, 10, LIT(L"Enable Player ESP"), &ConfigInstance.PlayerESP.Enable);
 			safeTab->Push(enableplayeresp);
@@ -53,24 +53,24 @@ void CreateGUI()
 			safeTab->Push(playerdistance);
 			auto playermaxdistance = std::make_shared<Slider<int>>(30, 120, 150, LIT(L"Max Distance"), LIT(L"m"), 0, 1000, &ConfigInstance.PlayerESP.MaxDistance);
 			safeTab->Push(playermaxdistance);
-			auto recoilKM = std::make_shared<Toggle>(180, 10, LIT(L"No Recoil KMBox"), &ConfigInstance.Misc.NoRecoilKMbox);
+			auto recoilKM = std::make_shared<Toggle>(200, 10, LIT(L"No Recoil KMBox"), &ConfigInstance.Misc.NoRecoilKMbox);
 			safeTab->Push(recoilKM);
-			auto recoilxKM = std::make_shared<Slider<int>>(200, 35, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilXKMbox);
+			auto recoilxKM = std::make_shared<Slider<int>>(220, 35, 150, LIT(L"Recoil X"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilXKMbox);
 			safeTab->Push(recoilxKM);
-			auto recoilyKM = std::make_shared<Slider<int>>(200, 65, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilYKMbox);
+			auto recoilyKM = std::make_shared<Slider<int>>(220, 65, 150, LIT(L"Recoil Y"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.RecoilYKMbox);
 			safeTab->Push(recoilyKM);
-			auto aimKM = std::make_shared<Toggle>(180, 100, LIT(L"KMBox Aimbot"), &ConfigInstance.Misc.aimKMbox);
+			auto aimKM = std::make_shared<Toggle>(200, 100, LIT(L"KMBox Aimbot"), &ConfigInstance.Misc.aimKMbox);
 			safeTab->Push(aimKM);
-			auto aimKey = std::make_shared<KeyBind>(200, 135, L"KeyBind", &ConfigInstance.Misc.aimKeyKM);
+			auto aimKey = std::make_shared<KeyBind>(220, 135, L"KeyBind", &ConfigInstance.Misc.aimKeyKM);
 			safeTab->Push(aimKey);
-			auto aimSmoothKM = std::make_shared<Slider<int>>(200, 165, 150, LIT(L"Smoothing"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.smoothKM);
+			auto aimSmoothKM = std::make_shared<Slider<int>>(220, 165, 150, LIT(L"Smoothing"), LIT(L"%"), 0, 100, &ConfigInstance.Misc.smoothKM);
 			safeTab->Push(aimSmoothKM);
-			auto aimFOVKM = std::make_shared<Slider<int>>(200, 195, 150, LIT(L"FOV"), LIT(L"%"), 0, 180, &ConfigInstance.Misc.fovKM);
+			auto aimFOVKM = std::make_shared<Slider<int>>(220, 195, 150, LIT(L"FOV"), LIT(L"%"), 0, 180, &ConfigInstance.Misc.fovKM);
 			safeTab->Push(aimFOVKM);
-			auto fovCircle = std::make_shared<Toggle>(200, 225, LIT(L"FOV Circle"), &ConfigInstance.Misc.fovCircle);
+			auto fovCircle = std::make_shared<Toggle>(220, 225, LIT(L"FOV Circle"), &ConfigInstance.Misc.fovCircle);
 			safeTab->Push(fovCircle);
 		}
-		auto unsafeTab = std::make_shared<Tab>(L"Unsafe", 65, 55, &SelectedTab, 50, 20);
+		auto unsafeTab = std::make_shared<Tab>(L"Unsafe", 65, 295, &SelectedTab, 50, 20);
 		{
 			auto unsafeFeatures = std::make_shared<Toggle>(10, 10, LIT(L"Enable Unsafe Features?"), &ConfigInstance.Misc.UnsafeFeat);
 			unsafeTab->Push(unsafeFeatures);
@@ -149,7 +149,7 @@ void CreateGUI()
 			auto spiderman = std::make_shared<Toggle>(180, 110, LIT(L"Spiderman"), &ConfigInstance.Misc.SpiderMan);
 			unsafeTab->Push(spiderman);
 		}
-		auto configTab = std::make_shared<Tab>(L"Config", 125, 55, &SelectedTab, 50, 20);
+		auto configTab = std::make_shared<Tab>(L"Config", 125, 295, &SelectedTab, 50, 20);
 		{
 			std::vector<std::wstring> configValues = { L"Config 1", L"Config 2", L"Config 3", L"Config 4", L"Config 5" };
 			auto configDropdown = std::make_shared<DropDown>(10, 10, L"Config", &ConfigNumber, configValues);

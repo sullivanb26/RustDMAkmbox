@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -236,6 +236,7 @@
     <ClInclude Include="Graphics\Utility\Animation.h" />
     <ClInclude Include="Graphics\Utility\Colour.h" />
     <ClInclude Include="Graphics\Utility\Font.h" />
+    <ClInclude Include="kmbox_interface.hpp" />
     <ClInclude Include="Memory\DMAHandler.h" />
     <ClInclude Include="Memory\Memory.h" />
     <ClInclude Include="Misc\CheatFunction.h" />

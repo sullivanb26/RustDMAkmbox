@@ -4,6 +4,8 @@
 #include <setupapi.h>
 #include <devguid.h>
 #include <thread>
+#include <array>
+#include <cassert>
 #include "conio.h"
 #pragma comment(lib, "setupapi.lib")
 using namespace std;
@@ -83,5 +85,23 @@ void send_command(HANDLE hSerial, const std::string& command) {
 	DWORD bytesWritten;
 	if (!WriteFile(hSerial, command.c_str(), command.length(), &bytesWritten, NULL)) {
 		std::cerr << "Failed to write to serial port!" << std::endl;
+	}
+}
+bool receive_data(HANDLE hSerial, const std::string& command) {
+	char readBuffer[256];
+	DWORD bytesRead;
+	send_command(hSerial, command.c_str());
+	if (!ReadFile(hSerial, readBuffer, sizeof(readBuffer) - 1, &bytesRead, NULL)) {
+		std::cerr << "Failed to read from serial port!" << std::endl;
+	}
+	if (bytesRead > 0) {
+		readBuffer[bytesRead] = '\0';
+		std::string commandmew = command + "1";
+		if (strstr(readBuffer, commandmew.c_str())) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

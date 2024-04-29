@@ -37,6 +37,19 @@ inline void km_click() {
 	send_command(hSerial, command1.c_str());
 }
 
+inline bool km_left() {
+	std::string command = "km.left()\r\n";
+	return receive_data(hSerial, command);
+}
+inline bool km_right() {
+	std::string command = "km.right()\r\n";
+	return receive_data(hSerial, command);
+}
+inline bool km_isDown(string key) {
+	std::string command = "km.isdown('" + key + "')\r\n";
+	return receive_data(hSerial, command);
+}
+
 // each time we reinitialize localplayer
 void PerServerVariables()
 {
@@ -93,7 +106,24 @@ std::shared_ptr<CheatFunction> UpdateMovement = std::make_shared<CheatFunction>(
 		TargetProcess.CloseScatterHandle(handle);
 	}
 	});
-
+const std::array<double, 4> atta_multi = {
+	/* None */		1.0,
+	/* 8x */		4.76,
+	/* holo */	1.2,
+	/* handmade */		0.8
+};
+const std::array<string, 12> weapon_name = {
+	/* None */		"None",
+	/* AK-47 */		"AK-47",
+	/* LR-300 */	"LR-300",
+	/* M249 */		"M249",
+	/* HMLMG */		"HMLMG",
+	/* MP5 */		"MP5",
+	/* Thompson */	"Thompson",
+	/* Custom */	"Custom",
+	/* Python */	"Python",
+	/* Semi */	"Semi"
+};
 const std::array<double, 12> weapon_delays = {
 	/* None */		0.0,
 	/* AK-47 */		133.33,
@@ -118,10 +148,11 @@ const std::vector<std::vector<std::array<double, 2>>>recoil_tables = {
 	/* Semi */	{ {0, -1.4} },
 	/* Python */	{ {0, -5.8} }
 };
+const std::vector<std::array<double, 2>>ak47 = { {0.000000,-2.257792},{0.323242,-2.300758},{0.649593,-2.299759},{0.848786,-2.259034},{1.075408,-2.323947},{1.268491,-2.215956},{1.330963,-2.236556},{1.336833,-2.218203},{1.505516,-2.143454},{1.504423,-2.233091},{1.442116,-2.270194},{1.478543,-2.204318},{1.392874,-2.165817},{1.480824,-2.177887},{1.597069,-2.270915},{1.449996,-2.145893},{1.369179,-2.270450},{1.582363,-2.298334},{1.516872,-2.235066},{1.498249,-2.238401},{1.465769,-2.331642},{1.564812,-2.242621},{1.517519,-2.303052},{1.422433,-2.211946},{1.553195,-2.248043},{1.510463,-2.285327},{1.553878,-2.240047},{1.520380,-2.221839},{1.553878,-2.240047},{1.553195,-2.248043} };
+const double akwait = 133.33;
+std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunction>(80, []() {
 
-std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunction>(300, []() {
-
-	if (ConfigInstance.Misc.NoRecoil && ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.NoRecoilKMbox || (ConfigInstance.Misc.NoRecoil && ConfigInstance.Misc.UnsafeFeat))
 	{
 		BaseLocalPlayer->SetupBeltContainerList();
 	}
@@ -132,68 +163,88 @@ std::shared_ptr<CheatFunction> UpdateLocalPlayer = std::make_shared<CheatFunctio
 	TargetProcess.ExecuteReadScatter(handle);
 	TargetProcess.CloseScatterHandle(handle);
 
-	if (ConfigInstance.Misc.NoRecoil && ConfigInstance.Misc.UnsafeFeat)
+	if (ConfigInstance.Misc.NoRecoilKMbox || (ConfigInstance.Misc.NoRecoil && ConfigInstance.Misc.UnsafeFeat))
 	{
 		std::shared_ptr <Item> helditem = BaseLocalPlayer->GetActiveItem();
+		// LOG("\n helditem %d", helditem);
 		if (helditem != nullptr)
 		{
+			//LOG("\n helditem %d", helditem);
+			LOG("\n itemID %d", helditem->GetItemID());
 			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
 			if (weapon->IsValidWeapon())
-			{
-				handle = TargetProcess.CreateScatterHandle();
-				weapon->WriteRecoilPitch(handle, helditem->GetItemID(), ConfigInstance.Misc.RecoilX);
-				weapon->WriteRecoilYaw(handle, helditem->GetItemID(), ConfigInstance.Misc.RecoilY);
-				TargetProcess.ExecuteScatterWrite(handle);
-				TargetProcess.CloseScatterHandle(handle);
-			}
+			{	
+				if (ConfigInstance.Misc.NoRecoil && ConfigInstance.Misc.UnsafeFeat) {
+					handle = TargetProcess.CreateScatterHandle();
+					weapon->WriteRecoilPitch(handle, helditem->GetItemID(), ConfigInstance.Misc.RecoilX);
+					weapon->WriteRecoilYaw(handle, helditem->GetItemID(), ConfigInstance.Misc.RecoilY);
+					TargetProcess.ExecuteScatterWrite(handle);
+					TargetProcess.CloseScatterHandle(handle);
+				} else if (ConfigInstance.Misc.NoRecoilKMbox) {
+					int weaponNum = 0;
+					switch (helditem->GetItemID())
+					{
+					case 54612: //ak
+						weaponNum = 1;
+						break;
 
-		}
+					case 55772: //lr
+						weaponNum = 2;
+						break;
 
-	}
-	if (ConfigInstance.Misc.NoRecoilKMbox)
-	{
-		std::shared_ptr <Item> helditem = BaseLocalPlayer->GetActiveItem();
-		if (helditem != nullptr)
-		{
-			std::shared_ptr <BaseProjectile> weapon = helditem->GetBaseProjectile();
-			if (weapon->IsValidWeapon())
-			{
-				double sens = 1.0;
-				double ADSsens = 1.0;
-				double resolutionX = GetSystemMetrics(SM_CXSCREEN);
-				double resolutionY = GetSystemMetrics(SM_CYSCREEN);
-				double recoilXPer = ConfigInstance.Misc.RecoilXKMbox;
-				double recoilYPer = ConfigInstance.Misc.RecoilYKMbox;
-				std::shared_ptr <ConvarGraphics> graphics = std::make_shared<ConvarGraphics>();
-				double fov = graphics->ReadFOV(); // May backup to input
-				int weaponNum = 0;
-				for (int i = 0; i < sizeof(recoil_tables[weaponNum]); i++) {
-					double angleX = recoil_tables[weaponNum][i][0];
-					double angleY = recoil_tables[weaponNum][i][1];
-					double xMoveABS;
-					double yMoveABS;
-					if ((GetKeyState(VK_RBUTTON) && 0x8000) != 0) {
-						xMoveABS = angleX / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
-						yMoveABS = angleY / (-0.03 * ADSsens * 3.0 * (fov / 100.0));
+					case 58539: //m249
+						weaponNum = 3;
+						break;
+
+					case 58542: //hmlmg
+						weaponNum = 4;
+						break;
+
+					case 58549: //mp5
+						weaponNum = 5;
+						break;
+
+					case 58568: //thompson
+						weaponNum = 6;
+						break;
+					default:
+						weaponNum = 0;
+						break;
 					}
-					else {
-						xMoveABS = angleX / (-0.03 * sens * 3.0 * (fov / 100.0));
-						yMoveABS = angleY / (-0.03 * sens * 3.0 * (fov / 100.0));
-					}
-					double xMoveREL = resolutionX / 2 + (xMoveABS * (recoilXPer / 100));
-					double yMoveREL = resolutionY / 2 + (yMoveABS * (recoilYPer / 100));
-					if((GetKeyState(VK_LBUTTON) && 0x8000) != 0)
-						if(i=0) {
-							Sleep(weapon_delays[weaponNum]);
-							km_move(xMoveREL, yMoveREL);
-						} else {
-							km_move(xMoveREL, yMoveREL);
+					LOG("\n %s", weapon_name[weaponNum].c_str());
+					double ADSsens = 0.66;
+					double recoilXPer = 0.80;
+					double recoilYPer = 0.60;
+					//double recoilXPer = ConfigInstance.Misc.RecoilXKMbox;
+					//double recoilYPer = ConfigInstance.Misc.RecoilYKMbox;
+					double fov = 90.0;
+					int scopeNum = 0;
+					int isFiring = km_left();
+					int isAiming = km_right();
+					if (isFiring == 1 && isAiming == 1) {
+						for (int i = 0; i < recoil_tables[weaponNum].size(); i++) {
+							float angleX = recoil_tables[weaponNum][i][0];
+							float angleY = recoil_tables[weaponNum][i][1];
+							printf("\n\nangleX:%f, angleY:%f", angleX, angleY);
+							double xMoveABS;
+							double yMoveABS;
+							xMoveABS = (angleX * atta_multi[scopeNum]) / (-0.03 * (ADSsens) * 3.0 * (fov / 100.0));
+							yMoveABS = (angleY * atta_multi[scopeNum]) / (-0.03 * (ADSsens) * 3.0 * (fov / 100.0));
+							LOG("\nabsX:%f, absY:%f", xMoveABS, yMoveABS);
+							double xMoveREL = xMoveABS * recoilXPer;
+							double yMoveREL = yMoveABS * recoilYPer;
+							LOG("\nrelX:%f, relY:%f", xMoveREL, yMoveREL);
+							int isFiring = km_left();
+							int isAiming = km_right();
+							if (isFiring == 1 && isAiming == 1) {
+								Sleep(akwait);
+								km_move(xMoveREL, yMoveREL);
+							}
+							else if (isFiring == 0)
+								break;
 						}
+					}
 				}
-
-				// TO DO
-				// * Create weapon selection from held weapon
-				//   - Will do via case switch possibly
 			}
 
 		}
@@ -259,24 +310,23 @@ void main()
 {
 	string port = find_port("USB-SERIAL CH340"); // name of the kmbox port without ( COM )
 	if (port.empty()) {
-		printf("\n	[!] No port found..");
+		std::cout << "\n	[!] no port found..";
 		return;
 	}
-	if (!open_port(hSerial, port.c_str(), CBR_115200))  { // CBR_1115200 is the baud rate
-		printf("\n	[!] Opening the port failed!");
+	if (!open_port(hSerial, port.c_str(), CBR_115200)) { // CBR_1115200 is the baud rate
+		std::cout << "\n	[!] opening the port failed!";
 		return;
 	}
-	printf("\n	[+] Connected to the kmbox with ");
-	printf(port.c_str());
-	printf("\n	[+] Proceeding to Rust client");
+	printf("\n[+] Connected to the kmbox");
+	printf("\n[+] Proceeding to Rust client \n");
 	if (!TargetProcess.Init("RustClient.exe"))
 	{
-		printf("\n	[!] Failed to initialize process");
+		printf("\n[!] Failed to initialize process");
 		return;
 	}
 	TargetProcess.GetBaseAddress("GameAssembly.dll");
 	TargetProcess.FixCr3();
-	printf("\n	[!] Found game");
+	printf("\n[!] Found game");
 	Intialize();
 
 }

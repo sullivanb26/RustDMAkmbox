@@ -278,5 +278,8 @@
     <ClInclude Include="Config\PlayerEspConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="kmbox_interface.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

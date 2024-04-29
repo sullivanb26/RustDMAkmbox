@@ -10,14 +10,14 @@ public:
         ConfigName = name;
     }
 
-    bool NoRecoilKMbox = false;
+    bool NoRecoilKMbox = true;
     int RecoilXKMbox = 25;
     int RecoilYKMbox = 25;
     bool aimKMbox = false;
     int aimKeyKM = 0;
     int smoothKM = 25;
     int fovKM = 25;
-    bool fovCircle = true;
+    bool fovCircle = false;
 
     bool UnsafeFeat = false;
     bool AdminESP = false;
