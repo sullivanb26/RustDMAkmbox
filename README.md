@@ -1,12 +1,7 @@
 > [!WARNING]
-> This repo is a work in progress. Stuff will change over time
+> This cheat is in **UNFINISHED** do not expect it to function and compile
+> * I have given up on working on this and will maybe create a new one in the future. I will push a semi-working version I made soon and then the repo will be archived.
 
-> [!IMPORTANT]
-> This cheat is in **PROGRESS** do not expect it to function and compile
-> * If you have any reccomendations/find bugs please open an issue ticket or a pull request
-
-> [!NOTE]
-> A new KMBox B+ Pro is on the way and I can test the cheat soon :)
 
 # Rust DMA Cheat
 A little DMA cheat for Rust. Some basic functions. A basic and easy to update SDK.
@@ -18,7 +13,7 @@ Forked From [IntelSDM's DMA Cheat](https://github.com/IntelSDM/RustDMACheat)
     * Player Fuser ESP
        * Box Esp
     * KMBox B+ Pro Anti-Recoil
-       * Almost complete
+       * Semi-working
     * KMBox B+ Pro Aimbot
        * In the works (not close to finish)
 - Unsafe Features
@@ -36,7 +31,7 @@ Forked From [IntelSDM's DMA Cheat](https://github.com/IntelSDM/RustDMACheat)
 - Safe features
     * KM-Box B+ Anti-recoil
       * ***IN PROGRESS***
-      * Mostly complete besides checking connection & weapon being held
+      * Mostly complete besides weapon being held
     * KM-Box B+ Aimbot 
       * May not support KM-Box Net
       * May take a while due to lack of *English* documentation
